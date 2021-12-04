@@ -4,13 +4,23 @@
 \alias{kmeans_clust}
 \title{kmeans_clust}
 \usage{
-kmeans_clust()
+kmeans_clust(X, k, nstart)
 }
 \arguments{
-\item{x}{input value}
+\item{X}{n x p data matrix}
+
+\item{k}{number of clusters}
+
+\item{nstart}{number of times to perform k means on the data}
 }
 \value{
-k clusters
+A list
+\itemize{
+  \item clusters - n x p+1 matrix of cluster assignments where the first column is cluster assignments
+  \item iter - number of iterations
+  \item centroids - k+1-length vector of centroids where the first column is cluster assignments
+  \item wcsse - min within-cluster SSE over all nstart iterations
+}
 }
 \description{
 Clusters data according to k-means algorithm
