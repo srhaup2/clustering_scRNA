@@ -1,3 +1,11 @@
+library(mixtools)
+library(stats)
+library(microbenchmark)
+library(dplyr)
+library(devtools)
+
+set.seed(322)
+
 ## My EM algorithm: Multivariate(independent) norm()
 #' Create a class normMixEM
 normMixEm <- setRefClass("normMixEM",
