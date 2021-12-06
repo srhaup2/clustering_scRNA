@@ -35,6 +35,7 @@ kmeans_clust = function(X, k, nstart = 1L, iter.max = 10L, init.method = "random
 
   # normalize data (helps with clustering)
   X = scale(X, center = TRUE, scale = apply(X,2,sd))
+  X[is.nan(X)] = 0
 
 
   ### Repeat k-means method nstart times ###
@@ -104,15 +105,15 @@ kmeans_clust = function(X, k, nstart = 1L, iter.max = 10L, init.method = "random
           min_dists = apply(dists,1,which.min)[open_pos]
           prob_vec = min_dists/sum(min_dists)
         }
-        # sample 2 + log(k) new centroids (this is default in scikitlearn implementation)
+        # sample l = 2 + log(k) new centroids (this is default in scikitlearn implementation)
         samp = sample(open_pos, ifelse(floor(2 + log(k)) > length(open_pos), length(open_pos),floor(2 + log(k))), prob = prob_vec)
         tmp_wcsse = numeric(ifelse(floor(2 + log(k)) > length(open_pos), length(open_pos),floor(2 + log(k))))
-        for (k in (1:length(samp))) {
-          dists = as.matrix(dist(rbind(X, rbind(centroids_i[1:j-1,],X[samp[k],]))))[1:n,(n+1):(n+j)]^2
+        for (l in (1:length(samp))) {
+          dists = as.matrix(dist(rbind(X, rbind(centroids_i[1:j-1,],X[samp[l],]))))[1:n,(n+1):(n+j)]^2
           min_dists = apply(dists,1,which.min) # closest centroid to each point
           clusters_i = cbind(min_dists, X)
           pt_to_cent = diag(dists[,clusters_i[,1]])
-          tmp_wcsse[k] = sum(pt_to_cent)
+          tmp_wcsse[l] = sum(pt_to_cent)
         }
 
         # select next centroid based on lowest wcsse
