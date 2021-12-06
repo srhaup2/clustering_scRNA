@@ -75,7 +75,9 @@ kable(data.frame(est=class0, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(
 #   different choices of PCA on EM
 #--------------------------------------------------------------------
 #1. spcaRcpp (alpha = beta = 1e-4)
+s = Sys.time()
 res_EM = normMixEm_test(data = spca_out$scores, num_components= 5L)
+Sys.time() - s
 class <- apply(res_EM$prob_mat, 1, which.max)
 table(class,TC)
 kable(data.frame(est=class, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
@@ -120,6 +122,19 @@ mclust::adjustedRandIndex(TC, class4)   #sparsepca (alpha = beta = 1e-4)
 mclust::adjustedRandIndex(TC, class5)   #sparsepca (alpha = beta = 0)
 
 #--------------------------------------------------------------------
+#   Speed Test spca + mixtools
+#--------------------------------------------------------------------
+s = Sys.time()
+mix_out = mixtools::mvnormalmixEM (spca_out$scores, arbvar = F,k=5)
+Sys.time() - s
+
+class_mix <- apply(mix_out$posterior, 1, which.max)
+table(class_mix,TC)
+kable(data.frame(est=class_mix, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
+
+
+
+#--------------------------------------------------------------------
 #   Speed Test for spcaRcpp
 #--------------------------------------------------------------------
 
@@ -143,7 +158,7 @@ Sys.time() - s
 #   Microbenchmark spcaRcpp vs sparsepca
 #--------------------------------------------------------------------
 sparsepca <- function(data) return (sparsepca::spca(data, k = 21, alpha = 1e-4, beta = 1e-4,verbose = F))
-rcpp <- function(data) return (spcaRcpp(tumor2, k = 21, alpha = 1e-4, beta = 1e-4))
+rcpp <- function(data) return (spcaRcpp(data, k = 21, alpha = 1e-4, beta = 1e-4))
 
 mb = microbenchmark(#prcomp(tumor2, rank. = 21),
                     sparsepca(tumor2),

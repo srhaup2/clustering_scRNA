@@ -4,9 +4,6 @@ library(microbenchmark)
 library(dplyr)
 library(devtools)
 library(dplyr)
-library(mvtnorm)
-
-set.seed(322)
 
 
 #### DONNOT MODIFY THIS PART 

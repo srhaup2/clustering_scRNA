@@ -3,7 +3,6 @@
 # on additional package 'mvtnorm'
 #Sample from a multivariate normal distribution based on cholesky decomposition
 
-set.seed(322)
 rmvnorm_chol <- function(n, mu=NULL, sigma=NULL) {
   if (is.null(mu)) {
     if (is.null(sigma)) {
