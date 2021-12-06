@@ -75,12 +75,14 @@ kable(data.frame(est=class0, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(
 #   different choices of PCA on EM
 #--------------------------------------------------------------------
 #1. spcaRcpp (alpha = beta = 1e-4)
+set.seed(20211206)
 s = Sys.time()
 res_EM = normMixEm_test(data = spca_out$scores, num_components= 5L)
 Sys.time() - s
 class <- apply(res_EM$prob_mat, 1, which.max)
-table(class,TC)
 kable(data.frame(est=class, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
+
+table(class,TC)
 #plot(1L:res_EM$iter,res_EM$loglik_list,type="l")
 
 #perm_class = class  #STORE SEED! DO NOT MODIFY
@@ -169,11 +171,16 @@ autoplot(mb)
 #--------------------------------------------------------------------
 #   spcaRcpp + kmeans
 #--------------------------------------------------------------------
+set.seed(20211205)
+s = Sys.time()
 res_kmeans = kmeans_clust(spca_out$scores, 5, nstart=1)
+Sys.time() - s
 PC <- res_kmeans$clusters[,1]
-#perm_PC = PC  #DO NOT MODIFY!!
 table(PC,TC)
 kable(data.frame(est=PC, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
+adjustedRandIndex(PC,TC)
+
+#perm_PC = PC  #DO NOT MODIFY!!
 #plot(1L:res_EM2$iter,res_EM2$loglik_list,type="l")
 #res_kmeans2 = kmeans(spca_out$scores, 5, nstart=1)
 
