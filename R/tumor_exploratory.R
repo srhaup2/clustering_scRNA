@@ -11,7 +11,7 @@ library(mclust)
 library(dplyr)
 library(sparsepca)   #original spca package
 #devtools::install_github("BoyaJiang/spcaRcpp")
-library(spcaRcpp) 
+library(spcaRcpp)
 
 set.seed(322)
 tumor = read.csv("data/data_500.csv")

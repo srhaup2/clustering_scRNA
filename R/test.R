@@ -26,10 +26,10 @@ spcaObj$center = t(replicate(nrow(X),colMeans(X)))
 X = X - spcaObj$center
 
 # all.equal(X2,X3)
-# 
+#
 # res = microbenchmark(sweep(X, MARGIN = 2, STATS = spcaObj$center, FUN = "-", check.margin = TRUE),
 #                      X3 = X - center_m, times = 300)
-# 
+#
 # autoplot(res)
 
 ori <- function(){

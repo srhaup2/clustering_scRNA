@@ -18,14 +18,28 @@ microbenchmark(
   kmeans_clust(brain[,-1], k = 5, nstart = 1)
 )
 
-# Accuracy
+# Accuracy (takes a long time to run!)
+res1 = numeric(10)
+res2 = numeric(10)
+res3 = numeric(10)
 
-adjustedRandIndex(kmeans(brain[,-1], centers = 5, nstart = 10, algorithm = "Lloyd")$cluster,
-                  brain_labs$Class)
+for (i in 1:10) {
+  res1[i] = adjustedRandIndex(kmeans(brain[,-1], centers = 5, nstart = 5, algorithm = "Lloyd")$cluster,
+                    brain_labs$Class)
+}
+
+for (i in 1:10) {
+  res2[i] = adjustedRandIndex(kmeans_clust(brain[,-1], k = 5, nstart = 5, init.method = "random")$clusters[,1],
+                              brain_labs$Class)
+}
+
+for (i in 1:10) {
+  res3[i] = adjustedRandIndex(kmeans_clust(brain[,-1], k = 5, nstart = 5, init.method = "kmeans++")$clusters[,1],
+                              brain_labs$Class)
+}
+
+# results
 
 
-adjustedRandIndex(kmeans_clust(brain[,-1], k = 5, nstart = 10)$clusters[,1],
-                  brain_labs$Class)
 
 
-### Mouse data
