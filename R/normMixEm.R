@@ -3,8 +3,14 @@ library(stats)
 library(microbenchmark)
 library(dplyr)
 library(devtools)
+library(dplyr)
+library(mvtnorm)
 
 set.seed(322)
+
+
+#### DONNOT MODIFY THIS PART 
+#### RUN THIS CHUNK BEFORE USING 'normMixEm ' FOR CLUSTERING
 
 ## My EM algorithm: Multivariate(independent) norm()
 #' Create a class normMixEM
@@ -83,9 +89,13 @@ normMixEm$methods(init.paras = function(){
 #' E-step for E-M algorithm
 normMixEm$methods(update.prob = function(){
   ## prob_mat contains log-likelihood of each components
+  # prob_mat <<- sapply(1:k, function(j)
+  #   log(pi_vec[j]+tol) + logdmvnorm(dat_mat, mu_mat[j,], sigma_mat[j,])
+  #   )
+  ## ???
   prob_mat <<- sapply(1:k, function(j)
-    log(pi_vec[j]+tol) + logdmvnorm(dat_mat, mu_mat[j,], diag(sigma_mat[j,]))
-  ) #  logdmvnorm(dat_mat, mu_mat[j,] vector, diag(sigma_mat[j,]) matrix)
+    log(pi_vec[j]+tol) + log(mvtnorm::dmvnorm(dat_mat, mu_mat[j,], diag(sigma_mat[j,]))+tol)
+  ) #  mvtnorm::dmvnorm is more stable!!
   
   max_log_prob <- apply(prob_mat,1,max) ## local change, do not change the field value
   prob_mat <<- exp(prob_mat - max_log_prob) ## re-scale probability (important)
@@ -109,8 +119,8 @@ normMixEm$methods(update.mu = function(){
 normMixEm$methods(update.sigma = function(){
   # sigma_mat: k * p
   sigma_mat <<- t(sapply(1:k, function(i) crossprod(prob_mat[,i], 
-                                                  t(t(dat_mat)- mu_mat[i,])^2)
-                       ))
+                                                    t(t(dat_mat)- mu_mat[i,])^2)
+  ))
   ## update sigma as weighted average
   sigma_mat <<- sigma_mat/(n*pi_vec+tol)
 })
@@ -143,5 +153,7 @@ normMixEm$methods(run.EM = function(max_iter=1000L,loglik_tol=1e-5){
   return(list(convergence=convergence,mu_mat=mu_mat,sigma_mat=sigma_mat,
               pi_vec=pi_vec,iter=iter,loglik_list=loglik_list, prob_mat=prob_mat))
 })
+
+
 
 
