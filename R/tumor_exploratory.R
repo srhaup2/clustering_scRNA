@@ -25,7 +25,7 @@ library(spcaRcpp)
 tumor_reduced = read.csv("data/tumor_reduced.csv")
 tumor_var = apply(tumor_reduced, 2, var)
 tumor_var2 = tumor_reduced[ , order(tumor_var, decreasing = T) ]  
-#tumor2 = tumor_var2[, 1:200]
+# tumor2 = tumor_var2[, 1:200]
 tumor2 = tumor_reduced[1:200]
 tumor3 = tumor_reduced[,1:500]
 
@@ -36,8 +36,9 @@ n = length(TC)
 
 spca_out = spcaRcpp(tumor2, k = 21, alpha = 1e-4, beta = 1e-4)
 spca_out2 = spcaRcpp(tumor2, k = 21, alpha = 0, beta = 0)
+spca_out3 = spcaRcpp(tumor3, k = 21, alpha = 1e-4, beta = 1e-4)
 prcomp_out = prcomp(tumor2, rank.=21)
-sparse_out = sparsepca::spca(tumor2, k = 21, alpha = 1e-4, beta = 1e-4, verbose = F)
+sparse_out = sparsepca::spca(tumor2, k = 21, alpha = 1e-4, beta = 1e-4, center = T, scale =T, verbose = F)
 sparse_out2 = sparsepca::spca(tumor2, k = 21, alpha = 0, beta = 0, verbose = F)
 
 #calculate culmulated explained var ratio
@@ -47,7 +48,7 @@ explained_var <- function(obj){
   cum_explained_ratio = cumsum(explained_var_ratio)
   return (cum_explained_ratio)
 }
-explained_var(spca_out2)
+explained_var(spca_out)
 
 #similar to autoplot(prcomp_out)
 plot_cluster<-function(obj){
@@ -68,10 +69,10 @@ normMixEm_test <- function(data, num_components= 5L ){
 #--------------------------------------------------------------------
 #   var selection with EM
 #--------------------------------------------------------------------
-# res_EM0 = normMixEm_test(data = as.matrix(tumor2), num_components= 5L)
-# class0 <- apply(res_EM0$prob_mat, 1, which.max)
-# kable(data.frame(est=class0, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
-# #plot(1L:res_EM0$iter,res_EM0$loglik_list,type="l")
+res_EM0 = normMixEm_test(data = as.matrix(tumor2), num_components= 5L)
+class0 <- apply(res_EM0$prob_mat, 1, which.max)
+kable(data.frame(est=class0, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
+#plot(1L:res_EM0$iter,res_EM0$loglik_list,type="l")
 
 #--------------------------------------------------------------------
 #   different choices of PCA on EM
@@ -131,8 +132,9 @@ spcaEM <- function(data){
   return (class)
 }
 
-ARI_EM = numeric(5)
-for (i in 1:5) {
+full_class = spcaEM(full_out)
+ARI_EM = numeric(10)
+for (i in 1:10) {
   ARI_EM[i] = adjustedRandIndex(spcaEM (spca_out),
                               TC)
 }
@@ -176,8 +178,7 @@ Sys.time() - s
 sparsepca <- function(data) return (sparsepca::spca(data, k = 21, alpha = 1e-4, beta = 1e-4,verbose = F))
 rcpp <- function(data) return (spcaRcpp(data, k = 21, alpha = 1e-4, beta = 1e-4))
 
-mb = microbenchmark(#prcomp(tumor2, rank. = 21),
-                    sparsepca(tumor2),
+mb = microbenchmark(sparsepca(tumor2),
                     rcpp(tumor2),
                     times = 100)
 autoplot(mb)
@@ -187,6 +188,7 @@ autoplot(mb)
 #--------------------------------------------------------------------
 set.seed(20211205)
 s = Sys.time()
+#spca_out = spcaRcpp(tumor2, k = 21, alpha = 1e-4, beta = 1e-4)
 res_kmeans = kmeans_clust(spca_out$scores, k =5, init.method = "gkmeans++")
 Sys.time() - s
 PC <- res_kmeans$clusters[,1]
@@ -194,16 +196,15 @@ kable(data.frame(est=PC, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
 
 table(PC,TC)
 
-spcaKmeans <- function(data){
-  res_kmeans = kmeans_clust(data$scores, k =5, init.method = "gkmeans++")
+spcaKmeans <- function(scores){
+  res_kmeans = kmeans_clust(scores, k =5, init.method = "gkmeans++")
   class <- res_kmeans$clusters[,1]
   return (class)
 }
 
-res_kmeans = numeric(10)
-time_kmeans = numeric(10)
+ARI_kmeans = numeric(10)
 for (i in 1:10) {
-  res_kmeans[i] = adjustedRandIndex(spcaKmeans(spca_out),
+  ARI_kmeans[i] = adjustedRandIndex(spcaKmeans(spca_out$scores),
                               TC)
 }
 
@@ -213,6 +214,11 @@ for (i in 1:10) {
                                     TC)
 }
 
+s = Sys.time()
+res_kmeans = kmeans_clust(spca_out3$scores, k =5, init.method = "gkmeans++")
+Sys.time() - s
+
+
 #--------------------------------------------------------------------
 #   microbenchmark 
 #--------------------------------------------------------------------
@@ -221,6 +227,10 @@ for (i in 1:10) {
 #                           times = 50)
 
 
+#suicide attempt
+s = Sys.time()
+full_out = sparsepca::spca(tumor_reduced, k = 100, verbose = F)
+Sys.time() - s
 
 
 
