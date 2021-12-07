@@ -10,6 +10,7 @@ library(ggfortify)
 library(mclust)
 library(dplyr)
 library(knitr)
+library(tidyverse) #data manipulation
 library(sparsepca)   #original spca package
 #devtools::install_github("BoyaJiang/spcaRcpp")
 library(spcaRcpp)
@@ -24,7 +25,8 @@ library(spcaRcpp)
 tumor_reduced = read.csv("data/tumor_reduced.csv")
 tumor_var = apply(tumor_reduced, 2, var)
 tumor_var2 = tumor_reduced[ , order(tumor_var, decreasing = T) ]  
-tumor2 = tumor_var2[, 1:500]
+#tumor2 = tumor_var2[, 1:200]
+tumor2 = tumor_reduced[1:200]
 tumor3 = tumor_reduced[,1:500]
 
 ####tumor2 = tumor[, 3:ncol(tumor)]
@@ -66,16 +68,16 @@ normMixEm_test <- function(data, num_components= 5L ){
 #--------------------------------------------------------------------
 #   var selection with EM
 #--------------------------------------------------------------------
-res_EM0 = normMixEm_test(data = as.matrix(tumor2), num_components= 5L)
-class0 <- apply(res_EM0$prob_mat, 1, which.max)
-kable(data.frame(est=class0, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
-#plot(1L:res_EM0$iter,res_EM0$loglik_list,type="l")
+# res_EM0 = normMixEm_test(data = as.matrix(tumor2), num_components= 5L)
+# class0 <- apply(res_EM0$prob_mat, 1, which.max)
+# kable(data.frame(est=class0, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
+# #plot(1L:res_EM0$iter,res_EM0$loglik_list,type="l")
 
 #--------------------------------------------------------------------
 #   different choices of PCA on EM
 #--------------------------------------------------------------------
 #1. spcaRcpp (alpha = beta = 1e-4)
-set.seed(20211206)
+set.seed(202112)
 s = Sys.time()
 res_EM = normMixEm_test(data = spca_out$scores, num_components= 5L)
 Sys.time() - s
@@ -122,6 +124,18 @@ mclust::adjustedRandIndex(TC, class2)   #spcaRcpp (alpha = beta = 0)
 mclust::adjustedRandIndex(TC, class3)   #prcomp
 mclust::adjustedRandIndex(TC, class4)   #sparsepca (alpha = beta = 1e-4)
 mclust::adjustedRandIndex(TC, class5)   #sparsepca (alpha = beta = 0)
+
+spcaEM <- function(data){
+  res_EM = normMixEm_test(data = data$scores, num_components= 5L)
+  class <- apply(res_EM$prob_mat, 1, which.max)
+  return (class)
+}
+
+ARI_EM = numeric(5)
+for (i in 1:5) {
+  ARI_EM[i] = adjustedRandIndex(spcaEM (spca_out),
+                              TC)
+}
 
 #--------------------------------------------------------------------
 #   Speed Test spca + mixtools
@@ -173,16 +187,39 @@ autoplot(mb)
 #--------------------------------------------------------------------
 set.seed(20211205)
 s = Sys.time()
-res_kmeans = kmeans_clust(spca_out$scores, 5, nstart=1)
+res_kmeans = kmeans_clust(spca_out$scores, k =5, init.method = "gkmeans++")
 Sys.time() - s
 PC <- res_kmeans$clusters[,1]
-table(PC,TC)
 kable(data.frame(est=PC, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
-adjustedRandIndex(PC,TC)
 
-#perm_PC = PC  #DO NOT MODIFY!!
-#plot(1L:res_EM2$iter,res_EM2$loglik_list,type="l")
-#res_kmeans2 = kmeans(spca_out$scores, 5, nstart=1)
+table(PC,TC)
+
+spcaKmeans <- function(data){
+  res_kmeans = kmeans_clust(data$scores, k =5, init.method = "gkmeans++")
+  class <- res_kmeans$clusters[,1]
+  return (class)
+}
+
+res_kmeans = numeric(10)
+time_kmeans = numeric(10)
+for (i in 1:10) {
+  res_kmeans[i] = adjustedRandIndex(spcaKmeans(spca_out),
+                              TC)
+}
+
+res_kmeans2 = numeric(10)
+for (i in 1:10) {
+  res_kmeans2[i] = adjustedRandIndex(spcaKmeans(tumor2),
+                                    TC)
+}
+
+#--------------------------------------------------------------------
+#   microbenchmark 
+#--------------------------------------------------------------------
+# mb_km_em = microbenchmark(spcaEM(spca_out),
+#                           spcaKmeans(spca_out),
+#                           times = 50)
+
 
 
 
