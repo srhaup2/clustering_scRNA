@@ -15,7 +15,9 @@ brain_labs = read_csv("data/labels.csv") %>%
 
 microbenchmark(
   kmeans(brain[,-1], centers = 5, nstart = 1, algorithm = "Lloyd"),
-  kmeans_clust(brain[,-1], k = 5, nstart = 1,),
+  kmeans_clust(brain[,-1], k = 5, nstart = 1, init.method = "random"),
+  kmeans_clust(brain[,-1], k = 5, nstart = 1, init.method = "kmeans++"),
+  kmeans_clust(brain[,-1], k = 5, nstart = 1, init.method = "gkmeans++"),
   times = 10
 )
 
