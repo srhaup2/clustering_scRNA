@@ -2,7 +2,7 @@
 % Please edit documentation in R/kmeans_clust.R
 \name{kmeans_clust}
 \alias{kmeans_clust}
-\title{kmeans_clust}
+\title{zkmeans_clust}
 \usage{
 kmeans_clust(X, k, nstart = 1L, iter.max = 10L, init.method = "random")
 }
@@ -28,8 +28,4 @@ A list
 }
 \description{
 Clusters data according to k-means algorithm
-}
-\examples{
-
-
 }

@@ -1,4 +1,4 @@
-#'kmeans_clust
+#'zkmeans_clust
 #'
 #' Clusters data according to k-means algorithm
 #'
@@ -20,9 +20,8 @@
 #'   \item wcsse - min within-cluster SSE over all nstart iterations
 #'}
 #'
-#'@examples
 #'
-#'
+#'@import stats
 #'@export
 #'
 

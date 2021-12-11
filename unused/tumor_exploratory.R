@@ -12,7 +12,7 @@ library(dplyr)
 library(knitr)
 library(tidyverse) #data manipulation
 library(sparsepca)   #original spca package
-#devtools::install_github("BoyaJiang/spcaRcpp")
+devtools::install_github("BoyaJiang/spcaRcpp")
 library(spcaRcpp)
 
 #--------------------------------------------------------------------
@@ -34,12 +34,12 @@ TC <- read.csv('data/labels.csv', row.names = NULL)[,2]
 nclust = 5
 n = length(TC)
 
-spca_out = spcaRcpp(tumor2, k = 21, alpha = 1e-4, beta = 1e-4)
-spca_out2 = spcaRcpp(tumor2, k = 21, alpha = 0, beta = 0)
-spca_out3 = spcaRcpp(tumor3, k = 21, alpha = 1e-4, beta = 1e-4)
+spca_out = spcaRcpp(tumor2, k = 15, alpha = 1e-4, beta = 1e-4)
+spca_out2 = spcaRcpp(tumor2, k = 15, alpha = 0, beta = 0)
+spca_out3 = spcaRcpp(tumor3, k = 15, alpha = 1e-4, beta = 1e-4)
 prcomp_out = prcomp(tumor2, rank.=21)
-sparse_out = sparsepca::spca(tumor2, k = 21, alpha = 1e-4, beta = 1e-4, center = T, scale =T, verbose = F)
-sparse_out2 = sparsepca::spca(tumor2, k = 21, alpha = 0, beta = 0, verbose = F)
+sparse_out = sparsepca::spca(tumor2, k = 15, alpha = 1e-4, beta = 1e-4, center = T, scale =T, verbose = F)
+sparse_out2 = sparsepca::spca(tumor2, k = 15, alpha = 0, beta = 0, verbose = F)
 
 #calculate culmulated explained var ratio
 explained_var <- function(obj){
@@ -161,12 +161,12 @@ prcomp_out = prcomp(tumor2, rank. = 21)
 Sys.time() - s
 
 s = Sys.time()
-rcpp_out = spcaRcpp(tumor2, k = 21, alpha = 1e-4, beta = 1e-4)
+rcpp_out = spcaRcpp(tumor2, k = 15, alpha = 1e-4, beta = 1e-4)
 #rcpp_out
 Sys.time() - s
 
 s = Sys.time()
-sparse_out = sparsepca::spca(tumor2, k = 21, alpha = 1e-4, beta = 1e-4, verbose = F)
+sparse_out = sparsepca::spca(tumor2, k = 15, alpha = 1e-4, beta = 1e-4, verbose = F)
 #sparse_out
 Sys.time() - s
 
@@ -174,8 +174,8 @@ Sys.time() - s
 #--------------------------------------------------------------------
 #   Microbenchmark spcaRcpp vs sparsepca
 #--------------------------------------------------------------------
-sparsepca <- function(data) return (sparsepca::spca(data, k = 21, alpha = 1e-4, beta = 1e-4,verbose = F))
-rcpp <- function(data) return (spcaRcpp(data, k = 21, alpha = 1e-4, beta = 1e-4))
+sparsepca <- function(data) return (sparsepca::spca(data, k = 15, alpha = 1e-4, beta = 1e-4,verbose = F))
+rcpp <- function(data) return (spcaRcpp(data, k = 15, alpha = 1e-4, beta = 1e-4))
 
 mb = microbenchmark(sparsepca(tumor2),
                     rcpp(tumor2),
@@ -187,7 +187,7 @@ autoplot(mb)
 #--------------------------------------------------------------------
 set.seed(20211205)
 s = Sys.time()
-#spca_out = spcaRcpp(tumor2, k = 21, alpha = 1e-4, beta = 1e-4)
+#spca_out = spcaRcpp(tumor2, k = 15, alpha = 1e-4, beta = 1e-4)
 res_kmeans = kmeans_clust(spca_out$scores, k =5, init.method = "gkmeans++")
 Sys.time() - s
 PC <- res_kmeans$clusters[,1]

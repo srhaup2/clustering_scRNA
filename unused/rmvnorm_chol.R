@@ -1,9 +1,3 @@
-#'rmvnorm_chol
-#'
-#' ?Description
-#'
-#'@export
-
 
 #Sample from a multivariate normal distribution based on cholesky decomposition
 # Alternative version of rmvnorm to eliminate dependence of mixtools
