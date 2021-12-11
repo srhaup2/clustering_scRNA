@@ -88,7 +88,6 @@ kable(data.frame(est=class, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n
 table(class,TC)
 #plot(1L:res_EM$iter,res_EM$loglik_list,type="l")
 
-#perm_class = class  #STORE SEED! DO NOT MODIFY
 kable(data.frame(est=perm_class, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
 adjustedRandIndex(perm_class, TC)
 

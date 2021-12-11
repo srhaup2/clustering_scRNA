@@ -1,8 +1,27 @@
-library(mixtools)
-library(stats)
-library(microbenchmark)
-library(dplyr)
-library(devtools)
+#'normMixEm
+#'
+#' ?Description
+#'
+#'@param input_dat n x p data matrix
+#'
+#'@param num_components number of clusters
+#'
+#'@return A list  
+#'\itemize{
+#'   \item convergence
+#'   \item mu_mat
+#'   \item sigma_mat
+#'   \item pi_vec
+#'   \item iter
+#'   \item loglik+list
+#'   \item prob_mat
+#'}
+#'
+#'@import mixtools
+#'@import dplyr
+#'@export
+#'
+
 
 #### DONNOT MODIFY THIS PART 
 #### RUN THIS CHUNK BEFORE USING 'normMixEm ' FOR CLUSTERING
