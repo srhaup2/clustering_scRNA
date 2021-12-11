@@ -18,10 +18,6 @@ library(spcaRcpp)
 #--------------------------------------------------------------------
 #   Prepare Dataset & Subsampling
 #--------------------------------------------------------------------
-# tumor = read.csv("data/data.csv")
-# tumor_reduced = tumor[,2:2001]
-# write.csv(tumor_reduced,"data/tumor_reduced.csv", row.names = FALSE)
-
 tumor_reduced = read.csv("data/tumor_reduced.csv")
 tumor_var = apply(tumor_reduced, 2, var)
 tumor_var2 = tumor_reduced[ , order(tumor_var, decreasing = T) ]  
@@ -59,7 +55,7 @@ plot_cluster<-function(obj){
     ggtitle ("Cluster of Tumor scRNA-seq") + 
     theme_minimal()
 }
-plot_cluster(spca_out2)
+plot_cluster(spca_out)
 
 normMixEm_test <- function(data, num_components= 5L ){
   EM <- normMixEm$new(input_dat = data,num_components = num_components)
@@ -230,6 +226,5 @@ Sys.time() - s
 s = Sys.time()
 full_out = sparsepca::spca(tumor_reduced, k = 100, verbose = F)
 Sys.time() - s
-
 
 
