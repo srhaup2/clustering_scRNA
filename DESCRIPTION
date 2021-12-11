@@ -15,3 +15,5 @@ Suggests:
     rmarkdown
 Imports: dplyr, mixtools, stats
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
