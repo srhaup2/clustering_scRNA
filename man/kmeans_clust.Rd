@@ -4,7 +4,7 @@
 \alias{kmeans_clust}
 \title{kmeans_clust}
 \usage{
-kmeans_clust(X, k, nstart)
+kmeans_clust(X, k, nstart, iter.max, init.method)
 }
 \arguments{
 \item{X}{n x p data matrix}
@@ -12,13 +12,17 @@ kmeans_clust(X, k, nstart)
 \item{k}{number of clusters}
 
 \item{nstart}{number of times to perform k means on the data}
+
+\item{iter.max} {max iterations per run}
+
+\item{init.method} {method for centroid initialization - choose from random, kmeans++, greedy kmeans++ (gkmeans++)}
 }
 \value{
 A list
 \itemize{
   \item clusters - n x p+1 matrix of cluster assignments where the first column is cluster assignments
   \item iter - number of iterations
-  \item centroids - k+1-length vector of centroids where the first column is cluster assignments
+  \item centroids - k x p+1 matrix of centroids where the first column is cluster assignments
   \item wcsse - min within-cluster SSE over all nstart iterations
 }
 }
@@ -26,6 +30,6 @@ A list
 Clusters data according to k-means algorithm
 }
 \examples{
-
+kmeans_clust(X, k = 3, nstart = 5, init.method = "kmeans++")
 
 }

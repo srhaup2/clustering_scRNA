@@ -11,13 +11,19 @@ brain = read_csv("data/data_500.csv") %>%
 brain_labs = read_csv("data/labels.csv") %>%
   rename(sample = "...1")
 
+brain2 = read_csv("~/Downloads/data.csv") %>%
+  select(-1) %>%
+  select(1:1001)
+
+brain = brain[,2:201]
+
 # Speed
 
 microbenchmark(
-  kmeans(brain[,-1], centers = 5, nstart = 1, algorithm = "Lloyd"),
-  kmeans_clust(brain[,-1], k = 5, nstart = 1, init.method = "random"),
-  kmeans_clust(brain[,-1], k = 5, nstart = 1, init.method = "kmeans++"),
-  kmeans_clust(brain[,-1], k = 5, nstart = 1, init.method = "gkmeans++"),
+  kmeans(brain, centers = 5, nstart = 1, algorithm = "Lloyd"),
+  kmeans_clust(brain, k = 5, nstart = 1, init.method = "random"),
+  kmeans_clust(brain, k = 5, nstart = 1, init.method = "kmeans++"),
+  kmeans_clust(brain, k = 5, nstart = 1, init.method = "gkmeans++"),
   times = 10
 )
 
@@ -45,7 +51,7 @@ for (i in 1:10) {
 
 
 for (i in 1:10) {
-  res2[i] = adjustedRandIndex(kmeans_clust(brain[,-1], k = 5, nstart = 1, init.method = "random")$clusters[,1],
+  res2[i] = adjustedRandIndex(kmeans_clust(brain, k = 5, nstart = 1, init.method = "random")$clusters[,1],
                               brain_labs$Class)
 }
 
@@ -62,7 +68,7 @@ for (i in 1:10) {
 
 
 for (i in 1:10) {
-  res3[i] = adjustedRandIndex(kmeans_clust(brain[,-1], k = 5, nstart = 1, init.method = "kmeans++")$clusters[,1],
+  res3[i] = adjustedRandIndex(kmeans_clust(brain, k = 5, nstart = 1, init.method = "kmeans++")$clusters[,1],
                               brain_labs$Class)
 }
 

@@ -21,7 +21,7 @@
 #'}
 #'
 #'@examples
-#'
+#'kmeans_clust(X, k = 3, nstart = 5, init.method = "kmeans++")
 #'
 #'@export
 #'
