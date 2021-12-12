@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.12.11)  11 DEC 2021 16:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.12.11)  11 DEC 2021 21:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -292,6 +292,22 @@ Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
 \Gm@layouthoffset=\dimen158
 \Gm@layoutvoffset=\dimen159
 \Gm@dimlist=\toks25
+) (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2021/11/24\nobreakspace {} 4.1a\nobreakspace {}verbatim text 
+(tvz,hv)
+\FV@CodeLineNo=\count282
+\FV@InFile=\read2
+\FV@TabBox=\box52
+\c@FancyVerbLine=\count283
+\FV@StepNumber=\count284
+\FV@OutFile=\write3
+) (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip53
+\fb@frw=\dimen160
+\fb@frh=\dimen161
+\FrameRule=\dimen162
+\FrameSep=\dimen163
 ) (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
@@ -303,8 +319,8 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
 )
-\Gin@req@height=\dimen160
-\Gin@req@width=\dimen161
+\Gin@req@height=\dimen164
+\Gin@req@width=\dimen165
 ) (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/grffile/grffile.sty
 Package: grffile 2019/11/11 v2.1 Extended file name support for graphics (legac
 y)
@@ -314,8 +330,8 @@ line 40.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.de
 f
 File: l3backend-pdftex.def 2021-10-18 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count282
-\l__pdf_internal_box=\box52
+\l__color_backend_stack_int=\count285
+\l__pdf_internal_box=\box53
 )
 
 LaTeX Warning: Unused global option(s):
@@ -324,24 +340,24 @@ LaTeX Warning: Unused global option(s):
 (./Report.aux)
 \openout1 = `Report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
 
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.st
 y
@@ -352,7 +368,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-Package hyperref Info: Link coloring OFF on input line 67.
+Package hyperref Info: Link coloring OFF on input line 107.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
@@ -362,14 +378,14 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ng.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count283
+\c@section@level=\count286
 )
-LaTeX Info: Redefining \ref on input line 67.
-LaTeX Info: Redefining \pageref on input line 67.
-LaTeX Info: Redefining \nameref on input line 67.
+LaTeX Info: Redefining \ref on input line 107.
+LaTeX Info: Redefining \pageref on input line 107.
+LaTeX Info: Redefining \nameref on input line 107.
 (./Report.out) (./Report.out)
-\@outlinefile=\write3
-\openout3 = `Report.out'.
+\@outlinefile=\write4
+\openout4 = `Report.out'.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -405,116 +421,124 @@ LaTeX Info: Redefining \nameref on input line 67.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 6
-9.
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
+09.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 6
-9.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
+09.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-69.
+109.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-69.
+109.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 69.
+(Font)              <12> on input line 109.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 69.
+(Font)              <8> on input line 109.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 69.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 69.
-
+(Font)              <6> on input line 109.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 109
+.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 69.
-
+LaTeX Font Info:    Trying to load font information for U+msb on input line 109
+.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 98.
+(Font)              <10> on input line 138.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 98.
+(Font)              <7> on input line 138.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 98.
+(Font)              <5> on input line 138.
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-11.
+51.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Underfull \hbox (badness 10000) in paragraph at lines 159--161
+Underfull \hbox (badness 10000) in paragraph at lines 200--202
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 163--166
+Underfull \hbox (badness 10000) in paragraph at lines 204--207
 
  []
 
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-77.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
+19.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-<./p2.png, id=44, 567.11874pt x 443.6575pt>
-File: ./p2.png Graphic file (type png)
-<use ./p2.png>
-Package pdftex.def Info: ./p2.png  used on input line 182.
-(pdftex.def)             Requested size: 567.11736pt x 443.6564pt.
-<./p1.png, id=46, 792.9625pt x 292.09125pt>
-File: ./p1.png Graphic file (type png)
-<use ./p1.png>
-Package pdftex.def Info: ./p1.png  used on input line 182.
-(pdftex.def)             Requested size: 674.34799pt x 248.39905pt.
-
-Overfull \hbox (569.35724pt too wide) in paragraph at lines 182--183
-[][] [] 
- []
-
-[1
+) [1
 
 {/Users/ginj/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 203--208
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 240.
+<rcpp2.png, id=70, 567.11874pt x 443.6575pt>
+File: rcpp2.png Graphic file (type png)
+<use rcpp2.png>
+Package pdftex.def Info: rcpp2.png  used on input line 254.
+(pdftex.def)             Requested size: 256.6116pt x 200.74747pt.
+<rcpp4.png, id=72, 587.19376pt x 423.5825pt>
+File: rcpp4.png Graphic file (type png)
+<use rcpp4.png>
+Package pdftex.def Info: rcpp4.png  used on input line 255.
+(pdftex.def)             Requested size: 278.29274pt x 200.75134pt.
+<results1.png, id=73, 374.39874pt x 508.90125pt>
+File: results1.png Graphic file (type png)
+<use results1.png>
+Package pdftex.def Info: results1.png  used on input line 290.
+(pdftex.def)             Requested size: 147.6945pt x 200.75365pt.
+<results2.png, id=74, 393.47pt x 455.7025pt>
+File: results2.png Graphic file (type png)
+<use results2.png>
+Package pdftex.def Info: results2.png  used on input line 291.
+(pdftex.def)             Requested size: 173.33746pt x 200.75308pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 316--322
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 208--211
+Underfull \hbox (badness 10000) in paragraph at lines 322--325
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 211--214
+Underfull \hbox (badness 10000) in paragraph at lines 325--328
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 214--218
+Underfull \hbox (badness 10000) in paragraph at lines 328--332
 
  []
 
-[2 <./p2.png> <./p1.png>] (./Report.aux)
+[2 <./rcpp2.png> <./rcpp4.png> <./results1.png> <./results2.png>] (./Report.aux
+)
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: 3E3957D49E729798A9C0685869C6461D;896.
+(rerunfilecheck)             Checksum: D7E22D98AEE06A1A5B3C7D6129B5DA7B;956.
  ) 
 Here is how much of TeX's memory you used:
- 10605 strings out of 480313
- 165079 string characters out of 5896702
- 472786 words of memory out of 5000000
- 28268 multiletter control sequences out of 15000+600000
- 458196 words of font info for 70 fonts, out of 8000000 for 9000
+ 11136 strings out of 480313
+ 173668 string characters out of 5896702
+ 485827 words of memory out of 5000000
+ 28792 multiletter control sequences out of 15000+600000
+ 458514 words of font info for 71 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,9n,63p,240b,324s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,9n,63p,240b,343s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/ginj/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/
 ginj/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Users/ginj/L
 ibrary/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/ginj/Library
@@ -533,11 +557,12 @@ TeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/ginj/Library/TinyTeX/tex
 mf-dist/fonts/type1/public/lm/lmr7.pfb></Users/ginj/Library/TinyTeX/texmf-dist/
 fonts/type1/public/lm/lmsy10.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/
 type1/public/lm/lmsy7.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/p
-ublic/lm/lmtt10.pfb>
-Output written on Report.pdf (2 pages, 309519 bytes).
+ublic/lm/lmtk10.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/public/
+lm/lmtt10.pfb>
+Output written on Report.pdf (2 pages, 501827 bytes).
 PDF statistics:
- 171 PDF objects out of 1000 (max. 8388607)
- 130 compressed objects within 2 object streams
+ 180 PDF objects out of 1000 (max. 8388607)
+ 133 compressed objects within 2 object streams
  26 named destinations out of 1000 (max. 500000)
- 83 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 93 words of extra memory for PDF output out of 10000 (max. 10000000)
 

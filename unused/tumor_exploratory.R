@@ -12,21 +12,19 @@ library(dplyr)
 library(knitr)
 library(tidyverse) #data manipulation
 library(sparsepca)   #original spca package
-devtools::install_github("BoyaJiang/spcaRcpp")
+#devtools::install_github("BoyaJiang/spcaRcpp")
 library(spcaRcpp)
 
 #--------------------------------------------------------------------
 #   Prepare Dataset & Subsampling
 #--------------------------------------------------------------------
-tumor_reduced = read.csv("data/tumor_reduced.csv")
-tumor_var = apply(tumor_reduced, 2, var)
-tumor_var2 = tumor_reduced[ , order(tumor_var, decreasing = T) ]  
-# tumor2 = tumor_var2[, 1:200]
+data("tumor_reduced")
+
 tumor2 = tumor_reduced[1:200]
 tumor3 = tumor_reduced[,1:500]
 
 ####tumor2 = tumor[, 3:ncol(tumor)]
-TC <- read.csv('data/labels.csv', row.names = NULL)[,2]
+data ("TC")
 nclust = 5
 n = length(TC)
 
@@ -178,6 +176,12 @@ mb = microbenchmark(sparsepca(tumor2),
                     times = 100)
 autoplot(mb)
 
+mb = microbenchmark(spcaRcpp::spcaRcpp(tumor2, k = 15, alpha = 0, beta = 0),
+                    stats::prcomp(tumor2, .rank = 15),
+                    times = 100)
+autoplot(mb)
+
+
 #--------------------------------------------------------------------
 #   spcaRcpp + kmeans
 #--------------------------------------------------------------------
@@ -226,5 +230,9 @@ Sys.time() - s
 s = Sys.time()
 full_out = sparsepca::spca(tumor_reduced, k = 100, verbose = F)
 Sys.time() - s
+
+
+
+
 
 
