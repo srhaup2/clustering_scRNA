@@ -27,7 +27,7 @@ res3 = numeric(10)
 res4 = numeric(10)
 
 for (i in 1:10) {
-  res1[i] = adjustedRandIndex(kmeans(tumor_reduced, centers = 5, nstart = 1, algorithm = "LLoyd")$cluster,
+  res1[i] = adjustedRandIndex(kmeans(tumor_reduced, centers = 5, nstart = 10, algorithm = "Lloyd")$cluster,
                     TC)
 }
 
@@ -40,7 +40,7 @@ sd(res1)
 
 
 for (i in 1:10) {
-  res2[i] = adjustedRandIndex(kmeans_clust(tumor_reduced, k = 5, nstart = 1, init.method = "random")$clusters[,1],
+  res2[i] = adjustedRandIndex(kmeans_clust(tumor_reduced, k = 5, nstart = 10, init.method = "random")$clusters[,1],
                               TC)
 }
 
@@ -52,7 +52,7 @@ sd(res2)
 
 
 for (i in 1:10) {
-  res3[i] = adjustedRandIndex(kmeans_clust(tumor_reduced, k = 5, nstart = 1, init.method = "kmeans++")$clusters[,1],
+  res3[i] = adjustedRandIndex(kmeans_clust(tumor_reduced, k = 5, nstart = 10, init.method = "kmeans++")$clusters[,1],
                               TC)
 }
 
@@ -64,7 +64,7 @@ sd(res3)
 
 
 for (i in 1:10) {
-  res4[i] = adjustedRandIndex(kmeans_clust(tumor_reduced, k = 5, nstart = 1, init.method = "gkmeans++")$clusters[,1],
+  res4[i] = adjustedRandIndex(kmeans_clust(tumor_reduced, k = 5, nstart = 10, init.method = "gkmeans++")$clusters[,1],
                               TC)
 }
 

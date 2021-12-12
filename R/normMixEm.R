@@ -19,6 +19,7 @@
 #'
 #'@import mixtools
 #'@import dplyr
+#'@import methods
 #'@export
 #'
 

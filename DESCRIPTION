@@ -1,11 +1,13 @@
 Package: clusteringscRNA
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Dimensionality Reduction and Clustering For scRNA Data
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Spencer Haupert, Boya Jiang, Kailin Wang
+Maintainer: Spencer Haupert <srhaup@gmail.com>
+Description: This is a project for the class Biostat 615 (Statistical Computing). 
+    In this package, we implement dimensionality reduction and clustering techniques 
+    to be evaluated on scRNA data. Specifically, we implement sparse PCA, different 
+    variants of k-means clustering, and refinements for the EM algorithm for a Gaussian mixture model. 
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
@@ -13,7 +15,8 @@ RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown
-Imports: dplyr, mixtools, stats
+Imports: dplyr, mixtools, stats, Rcpp, methods
+LinkingTo: Rcpp
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

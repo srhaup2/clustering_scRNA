@@ -30,6 +30,6 @@ A list
 Clusters data according to k-means algorithm
 }
 \examples{
-kmeans_clust(X, k = 3, nstart = 5, init.method = "kmeans++")
+kmeans_clust(tumor_reduced, k = 3, nstart = 5, init.method = "kmeans++")
 
 }
