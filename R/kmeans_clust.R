@@ -66,11 +66,11 @@ kmeans_clust = function(X, k, nstart = 1L, iter.max = 10L, init.method = "random
       for (j in 2:k) {
         #compute distances, get min for each point
         if (j == 2){ # only one centroid
-          dists = as.matrix(dist(rbind(X, centroids_i[1:j-1,])))[1:n,(n+1):(n+j-1)]^2
+          dists = as.matrix(apply(centroids_i[1:j,], 1, FUN=function(x){sqrt(colSums((t(X)-x)^2))})^2)[,1] #fast distance matrix
           min_dists = dists[open_pos]
           prob_vec = min_dists/sum(min_dists)
         } else { #many centroids
-          dists = as.matrix(dist(rbind(X, centroids_i[1:j-1,])))[1:n,(n+1):(n+j-1)]^2
+          dists = apply(centroids_i[1:j-1,], 1, FUN=function(x){sqrt(colSums((t(X)-x)^2))})^2
           min_dists = apply(dists,1,which.min)[open_pos]
           prob_vec = min_dists/sum(min_dists)
         }
@@ -98,11 +98,11 @@ kmeans_clust = function(X, k, nstart = 1L, iter.max = 10L, init.method = "random
       for (j in 2:k) {
         #compute distances, get min for each point
         if (j == 2){ # only one centroid
-          dists = as.matrix(dist(rbind(X, centroids_i[1:j-1,])))[1:n,(n+1):(n+j-1)]^2
+          dists = as.matrix(apply(centroids_i[1:j,], 1, FUN=function(x){sqrt(colSums((t(X)-x)^2))})^2)[,1]
           min_dists = dists[open_pos]
           prob_vec = min_dists/sum(min_dists)
         } else { # many centroids
-          dists = as.matrix(dist(rbind(X, centroids_i[1:j-1,])))[1:n,(n+1):(n+j-1)]^2
+          dists = apply(centroids_i[1:j-1,], 1, FUN=function(x){sqrt(colSums((t(X)-x)^2))})^2
           min_dists = apply(dists,1,which.min)[open_pos]
           prob_vec = min_dists/sum(min_dists)
         }
@@ -110,7 +110,7 @@ kmeans_clust = function(X, k, nstart = 1L, iter.max = 10L, init.method = "random
         samp = sample(open_pos, ifelse(floor(2 + log(k)) > length(open_pos), length(open_pos),floor(2 + log(k))), prob = prob_vec)
         tmp_wcsse = numeric(ifelse(floor(2 + log(k)) > length(open_pos), length(open_pos),floor(2 + log(k))))
         for (l in (1:length(samp))) {
-          dists = as.matrix(dist(rbind(X, rbind(centroids_i[1:j-1,],X[samp[l],]))))[1:n,(n+1):(n+j)]^2
+          dists = apply(rbind(centroids_i[1:j-1,],X[samp[l],]), 1, FUN=function(x){sqrt(colSums((t(X)-x)^2))})^2
           min_dists = apply(dists,1,which.min) # closest centroid to each point
           clusters_i = cbind(min_dists, X)
           pt_to_cent = diag(dists[,clusters_i[,1]])
@@ -142,7 +142,7 @@ kmeans_clust = function(X, k, nstart = 1L, iter.max = 10L, init.method = "random
       iter_i = iter_i + 1
 
       # calculate distance
-      dists = as.matrix(dist(rbind(clusters_i[,-1], centroids_i[,-1])))[1:n,(n+1):(n+k)]^2 # n x k squared distance matrix
+      dists = apply(centroids_i[,-1], 1, FUN=function(x){sqrt(colSums((t(clusters_i[,-1])-x)^2))})^2 # n x k squared distance matrix
       min_dists = apply(dists,1,which.min) # closest centroid to each point
 
       # re-assign clusters
