@@ -1,6 +1,0 @@
-```{r}
-res_EM = normMixEm_test(data = spca_out$scores, num_components= 5L)
-class <- apply(res_EM$prob_mat, 1, which.max)
-table(class,TC)
-kable(data.frame(est=class, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
-```

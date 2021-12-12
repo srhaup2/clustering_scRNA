@@ -4,7 +4,7 @@
 \alias{kmeans_clust}
 \title{kmeans_clust}
 \usage{
-kmeans_clust(X, k, nstart, iter.max, init.method)
+kmeans_clust(X, k, nstart = 1L, iter.max = 10L, init.method = "random")
 }
 \arguments{
 \item{X}{n x p data matrix}
@@ -13,9 +13,9 @@ kmeans_clust(X, k, nstart, iter.max, init.method)
 
 \item{nstart}{number of times to perform k means on the data}
 
-\item{iter.max} {max iterations per run}
+\item{iter.max}{max iterations per run}
 
-\item{init.method} {method for centroid initialization - choose from random, kmeans++, greedy kmeans++ (gkmeans++)}
+\item{init.method}{method for centroid initialization - choose from random, kmeans++, greedy kmeans++ (gkmeans++)}
 }
 \value{
 A list
