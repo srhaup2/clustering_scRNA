@@ -3,7 +3,7 @@
 \docType{class}
 \name{normMixEM-class}
 \alias{normMixEM-class}
-\alias{normMixEm}
+\alias{normMixEM}
 \title{normMixEm}
 \arguments{
 \item{input_dat}{n x p data matrix}

@@ -20,7 +20,8 @@
 #'@import mixtools
 #'@import dplyr
 #'@import methods
-#'@export
+#'@export 
+#'
 #'
 
 
@@ -28,7 +29,7 @@
 #### RUN THIS CHUNK BEFORE USING 'normMixEm ' FOR CLUSTERING
 
 ## My EM algorithm: Multivariate(independent) norm()
-normMixEm <- setRefClass("normMixEM",
+normMixEM <- setRefClass("normMixEM",
                          fields=list(k = "integer",
                                      n = "integer",
                                      dat_mat = "matrix",
@@ -41,7 +42,7 @@ normMixEm <- setRefClass("normMixEM",
 
 
 #method to initialize normMixEm class (called with normMixEm$new)
-normMixEm$methods(initialize = function(input_dat,num_components){
+normMixEM$methods(initialize = function(input_dat,num_components){
   dat_mat <<- input_dat ## Use <<- to assign fields
   k <<- num_components
   n <<- dim(dat_mat)[1]
@@ -112,7 +113,7 @@ normalmix_init = function (x, k = 5)
 }
 
 #method to initialize parameters for E-M
-normMixEm$methods(init.paras = function(){
+normMixEM$methods(init.paras = function(){
   tol <<- 1e-100  ## small number to avoid log(zero) 
   init   <<- normalmix_init(dat_mat, k = k)
   pi_vec <<- init$lambda  # k*1
@@ -124,7 +125,7 @@ normMixEm$methods(init.paras = function(){
 
 
 #E-step for E-M algorithm
-normMixEm$methods(update.prob = function(){
+normMixEM$methods(update.prob = function(){
   prob_mat <<- sapply(1:k, function(j)
     log(pi_vec[j]+tol) + logdmvnorm(dat_mat, mu_mat[j,], diag(sigma_mat[j,]))
   ) #  logdmvnorm(dat_mat, mu_mat[j,] vector, diag(sigma_mat[j,]) matrix)
@@ -137,18 +138,18 @@ normMixEm$methods(update.prob = function(){
 })
 
 #M-step for E-M algorithm to update pi_vec
-normMixEm$methods(update.pi = function(){
+normMixEM$methods(update.pi = function(){
   pi_vec <<- apply(prob_mat,2,mean)# prob_mat:  n*k => k*1
 })
 
 #M-step for E-M algorithm to update mu_mat
-normMixEm$methods(update.mu = function(){
+normMixEM$methods(update.mu = function(){
   # mu_mat: k * p
   mu_mat <<- (crossprod(prob_mat,dat_mat)/(apply(prob_mat,2,sum)+tol))#apply(dat_mat*prob_mat,2,mean)/(pi_vec+tol)
 })
 
 #M-step for E-M algorithm to update sigma_mat
-normMixEm$methods(update.sigma = function(){
+normMixEM$methods(update.sigma = function(){
   # sigma_mat: k * p
   sigma_mat <<- t(sapply(1:k, function(i) crossprod(prob_mat[,i], 
                                                     t(t(dat_mat)- mu_mat[i,])^2)
@@ -159,14 +160,14 @@ normMixEm$methods(update.sigma = function(){
 
 
 #check convergence of mixture normal EM
-normMixEm$methods(check.tol = function(fmax,fmin,ftol){
+normMixEM$methods(check.tol = function(fmax,fmin,ftol){
   delta = abs(fmax - fmin)
   accuracy = (abs(fmax) + abs(fmin))*ftol
   return(delta < (accuracy + tol))
 })
 #main function for E-M algorithm
 
-normMixEm$methods(run.EM = function(max_iter=1000L,loglik_tol=1e-5){
+normMixEM$methods(run.EM = function(max_iter=1000L,loglik_tol=1e-5){
   convergence = 1L
   init.paras()  ## initialize parameter
   loglik_list = NULL
