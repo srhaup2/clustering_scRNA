@@ -6,7 +6,7 @@ library(clusteringscRNA) # our package
 ### Brain data
 
 # if you want to make it smaller
-tumor_reduced2 = tumor_reduced[,1:500]
+tumor_reduced2 = tumor_reduced[,1:1000]
 
 # Speed
 microbenchmark(
@@ -18,14 +18,14 @@ microbenchmark(
 )
 
 # Accuracy (takes a long time to run!)
-res1 = matrix(0,2,10)
+res1 = matrix(0,2,25)
 rownames(res1) = c("ARI", "WCSSE")
 res2 = res1
 res3 = res1
 res4 = res1
 
-for (i in 1:10) {
-  m = kmeans(tumor_reduced2, centers = 5, nstart = 5, iter.max = 25, algorithm = "Lloyd")
+for (i in 1:25) {
+  m = kmeans(tumor_reduced2, centers = 5, nstart = 5, iter.max = 10, algorithm = "Lloyd")
   res1[1,i] = adjustedRandIndex(m$cluster,TC)
   res1[2,i] = m$tot.withinss
 }
@@ -45,8 +45,8 @@ max(res1[2,])
 
 
 
-for (i in 1:10) {
-  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 5, iter.max = 25, init.method = "random")
+for (i in 1:25) {
+  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 5, iter.max = 10, init.method = "random", center = FALSE, scale = FALSE)
   res2[1,i] = adjustedRandIndex(m$clusters[,1],TC)
   res2[2,i] = m$wcsse
 }
@@ -65,8 +65,8 @@ max(res2[2,])
 
 
 
-for (i in 1:10) {
-  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 5, iter.max = 25, init.method = "kmeans++")
+for (i in 1:25) {
+  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 5, iter.max = 10, init.method = "kmeans++", center = FALSE, scale = FALSE)
   res3[1,i] = adjustedRandIndex(m$clusters[,1],TC)
   res3[2,i] = m$wcsse
 }
@@ -84,8 +84,8 @@ mean(res3[2,])
 max(res3[2,])
 
 
-for (i in 1:10) {
-  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 5, iter.max = 25, init.method = "gkmeans++")
+for (i in 1:25) {
+  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 5, iter.max = 10, init.method = "gkmeans++", center = FALSE, scale = FALSE)
   res4[1,i] = adjustedRandIndex(m$clusters[,1],TC)
   res4[2,i] = m$wcsse
 }

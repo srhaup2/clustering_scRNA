@@ -12,6 +12,10 @@
 #'
 #'@param init.method method for centroid initialization - choose from random, kmeans++, greedy kmeans++ (gkmeans++)
 #'
+#'@param center if TRUE, subtracts the mean for each feature
+#'
+#'@param scale if TRUE, scales each feature by its standard deviation
+#'
 #'@return A list
 #'\itemize{
 #'   \item clusters - n x p+1 matrix of cluster assignments where the first column is cluster assignments
@@ -28,18 +32,30 @@
 #'@export
 #'
 
-kmeans_clust = function(X, k, nstart = 1L, iter.max = 10L, init.method = "random"){
+kmeans_clust = function(X, k, nstart = 1L, iter.max = 10L, init.method = "random", center = TRUE, scale = TRUE){
   ### Setup ###
+  
+  # Make sure x is matrix
+  if(!is.matrix(X)){
+    X = as.matrix(X)
+  }
   
   # get matrix dims
   n = nrow(X)
   p = ncol(X)
   
   # normalize data (helps with clustering)
-  X = scale(X, center = TRUE, scale = apply(X,2,sd))
-  X[is.nan(X)] = 0
-  
-  
+  if (center == TRUE & scale == TRUE){
+    X = scale(X, center = TRUE, scale = apply(X,2,sd))
+    X[is.nan(X)] = 0
+  } else if (center == TRUE & scale == FALSE){
+    X = scale(X, center = TRUE)
+    X[is.nan(X)] = 0
+  } else if (center == FALSE & scale == TRUE){
+    X = scale(X, center = FALSE, scale = apply(X,2,sd))
+    X[is.nan(X)] = 0
+  }
+
   ### Repeat k-means method nstart times ###
   for (i in 1:nstart){
     

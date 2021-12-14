@@ -4,7 +4,15 @@
 \alias{kmeans_clust}
 \title{kmeans_clust}
 \usage{
-kmeans_clust(X, k, nstart = 1L, iter.max = 10L, init.method = "random")
+kmeans_clust(
+  X,
+  k,
+  nstart = 1L,
+  iter.max = 10L,
+  init.method = "random",
+  center = TRUE,
+  scale = TRUE
+)
 }
 \arguments{
 \item{X}{n x p data matrix}
@@ -16,6 +24,10 @@ kmeans_clust(X, k, nstart = 1L, iter.max = 10L, init.method = "random")
 \item{iter.max}{max iterations per run}
 
 \item{init.method}{method for centroid initialization - choose from random, kmeans++, greedy kmeans++ (gkmeans++)}
+
+\item{center}{if TRUE, subtracts the mean for each feature}
+
+\item{scale}{if TRUE, scales each feature by its standard deviation}
 }
 \value{
 A list

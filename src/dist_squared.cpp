@@ -14,7 +14,7 @@ NumericMatrix dist_squared(NumericMatrix X, NumericMatrix C) {
       for (int l = 0; l < p; l++) {
         sum += pow(X(i, l) - C(j, l), 2);
       }
-      dist(i, j) = pow(sqrt(sum),2);
+      dist(i, j) = sum;
     }
   }
   return dist;
