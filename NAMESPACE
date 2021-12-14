@@ -1,6 +1,7 @@
 export(kmeans_clust)
 export(normMixEM)
 exportClasses(normMixEM)
+export(dist_squared)
 import(Rcpp)
 import(methods)
 import(mixtools)
