@@ -13,6 +13,7 @@ library(knitr)
 library(tidyverse) #data manipulation
 library(sparsepca)   #original spca package
 #devtools::install_github("BoyaJiang/spcaRcpp")
+devtools::install_github("srhaup2/clustering_scRNA", force = T)
 library(spcaRcpp)
 
 #--------------------------------------------------------------------
@@ -56,7 +57,7 @@ plot_cluster<-function(obj){
 plot_cluster(spca_out)
 
 normMixEm_test <- function(data, num_components= 5L ){
-  EM <- normMixEm$new(input_dat = data,num_components = num_components)
+  EM <- clusteringscRNA::normMixEM$new(input_dat = data,num_components = num_components)
   res_EM <- EM$run.EM(loglik_tol=1e-5)
 }
 
@@ -188,7 +189,7 @@ autoplot(mb)
 set.seed(20211205)
 s = Sys.time()
 #spca_out = spcaRcpp(tumor2, k = 15, alpha = 1e-4, beta = 1e-4)
-res_kmeans = kmeans_clust(spca_out$scores, k =5, init.method = "gkmeans++")
+res_kmeans = clusteringscRNA::kmeans_clust(spca_out$scores, k =5, init.method = "gkmeans++")
 Sys.time() - s
 PC <- res_kmeans$clusters[,1]
 kable(data.frame(est=PC, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
@@ -232,7 +233,16 @@ full_out = sparsepca::spca(tumor_reduced, k = 100, verbose = F)
 Sys.time() - s
 
 
+mb = microbenchmark(normMixEm_test(data = spca_out$scores, num_components= 5L),
+                    clusteringscRNA::kmeans_clust(spca_out$scores, k =5, init.method = "gkmeans++"),
+                    times = 10)
+autoplot(mb)
+summary(mb)
 
 
+mb2 = microbenchmark(
+                    clusteringscRNA::kmeans_clust(spca_out$scores, k =5, init.method = "gkmeans++"),
+                    times = 50)
+summary(mb2)
 
 
