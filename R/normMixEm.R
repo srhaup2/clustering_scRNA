@@ -1,6 +1,6 @@
-#' @name normMixEm
+#' @name normMixEM
 #' @title EM Algorithm for Mixtures of Independent Multivariate Normals
-#' @description  This is a normMixEm class, which initializes and runs EM algorithm output for mixtures of independent multivariate normal distributions
+#' @description  This is a normMixEM class, which initializes and runs EM algorithm output for mixtures of independent multivariate normal distributions
 #' @param input_data  A matrix/dataframe of size nxp consisting of the data.
 #' @param num_components Number of components.
 #' @return A list including
@@ -14,7 +14,7 @@
 #'   \item prob_mat - A n*k matrix includes the probabilities of being assigned to k components for each sample.
 #'}
 #' @examples
-#'  EM <- normMixEm$new(input_dat = data,num_components = num_components) ## initialization with $new
+#'  EM <- normMixEM$new(input_dat = data,num_components = num_components) ## initialization with $new
 #'  res_EM <- EM$run.EM(loglik_tol=1e-5) ## run the main function for EM algorithm with $run.EM
 #' @import stats
 #' @import mixtools
@@ -24,8 +24,8 @@
 
 
 #' Create a class normMixEM
-#' method to initialize normMixEm class (called with normMixEm$new)
-normMixEm <- setRefClass("normMixEM",
+#' method to initialize normMixEM class (called with normMixEM$new)
+normMixEM <- setRefClass("normMixEM",
                          fields=list(k = "integer",
                                      n = "integer",
                                      dat_mat = "matrix",
@@ -36,7 +36,7 @@ normMixEm <- setRefClass("normMixEM",
                                      loglik = "numeric",
                                      tol = "numeric"))
 
-normMixEm$methods(initialize = function(input_dat,num_components){
+normMixEM$methods(initialize = function(input_dat,num_components){
   dat_mat <<- input_dat ## Use <<- to assign fields
   k <<- num_components
   n <<- dim(dat_mat)[1]
@@ -49,7 +49,7 @@ normMixEm$methods(initialize = function(input_dat,num_components){
 # prob_mat: n * k
 
 #' method to initialize parameters for E-M
-normMixEm$methods(init.paras = function(){
+normMixEM$methods(init.paras = function(){
   tol <<- 1e-100  ## small number to avoid log(zero) 
   init   <<- normalmix_init(dat_mat, k = k)
   pi_vec <<- init$lambda  # k*1
@@ -61,7 +61,7 @@ normMixEm$methods(init.paras = function(){
 
 
 #' E-step for E-M algorithm
-normMixEm$methods(update.prob = function(){
+normMixEM$methods(update.prob = function(){
   ## prob_mat contains log-likelihood of each components
   # version 1
   prob_mat <<- sapply(1:k, function(j)
@@ -79,18 +79,18 @@ normMixEm$methods(update.prob = function(){
 })
 
 #' M-step for E-M algorithm to update pi_vec
-normMixEm$methods(update.pi = function(){
+normMixEM$methods(update.pi = function(){
   pi_vec <<- apply(prob_mat,2,mean)# prob_mat:  n*k => k*1
 })
 
 #' M-step for E-M algorithm to update mu_mat
-normMixEm$methods(update.mu = function(){
+normMixEM$methods(update.mu = function(){
   # mu_mat: k * p
   mu_mat <<- (crossprod(prob_mat,dat_mat)/(apply(prob_mat,2,sum)+tol))#apply(dat_mat*prob_mat,2,mean)/(pi_vec+tol)
 })
 
 #' M-step for E-M algorithm to update sigma_mat
-normMixEm$methods(update.sigma = function(){
+normMixEM$methods(update.sigma = function(){
   # sigma_mat: k * p
   sigma_mat <<- t(sapply(1:k, function(i) crossprod(prob_mat[,i], 
                                                     t(t(dat_mat)- mu_mat[i,])^2)
@@ -101,14 +101,14 @@ normMixEm$methods(update.sigma = function(){
 
 
 #' check convergence of mixture normal EM
-normMixEm$methods(check.tol = function(fmax,fmin,ftol){
+normMixEM$methods(check.tol = function(fmax,fmin,ftol){
   delta = abs(fmax - fmin)
   accuracy = (abs(fmax) + abs(fmin))*ftol
   return(delta < (accuracy + tol))
 })
 
 #' main function for E-M algorithm
-normMixEm$methods(run.EM = function(max_iter=1000L,loglik_tol=1e-5){
+normMixEM$methods(run.EM = function(max_iter=1000L,loglik_tol=1e-5){
   convergence = 1L
   init.paras()  ## initialize parameter
   loglik_list = NULL
