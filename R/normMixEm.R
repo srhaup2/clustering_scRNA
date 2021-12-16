@@ -145,9 +145,6 @@ normMixEm$methods(run.EM = function(max_iter=1000L,loglik_tol=1e-5){
 #'   \item k - Integer. Number of components.  
 #'}
 #'
-#'@import stats
-#'@export 
-#'
 normalmix_init = function (x, k = 5) 
 {
   n <- nrow(x)
@@ -192,8 +189,6 @@ normalmix_init = function (x, k = 5)
 #'
 #'@return A n*p matrix. Each row is a multivariate normal vector generated independently based on the input parameters.
 #'
-#'@import stats
-#'@export 
 #'
 
 # Alternative version of rmvnorm to eliminate dependence of mixtools
