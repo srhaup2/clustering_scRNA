@@ -65,7 +65,7 @@ normMixEM$methods(update.prob = function(){
   ## prob_mat contains log-likelihood of each components
   # version 1
   prob_mat <<- sapply(1:k, function(j)
-    log(pi_vec[j]+tol) + logdmvnorm(dat_mat, mu_mat[j,], sigma_mat[j,])
+    log(pi_vec[j]+tol) + logdmvnorm(dat_mat, mu_mat[j,], diag(sigma_mat[j,]))
   )
   ## version 2
   # prob_mat <<- sapply(1:k, function(j)

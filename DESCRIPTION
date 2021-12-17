@@ -15,7 +15,7 @@ RoxygenNote: 7.1.2
 Suggests: 
     knitr,
     rmarkdown
-Imports: dplyr, mixtools, stats, Rcpp, methods
+Imports: dplyr, mixtools, stats, Rcpp, methods,mvtnorm
 LinkingTo: Rcpp
 VignetteBuilder: knitr
 Depends: 

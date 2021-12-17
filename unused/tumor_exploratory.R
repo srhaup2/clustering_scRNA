@@ -12,7 +12,7 @@ library(dplyr)
 library(knitr)
 library(tidyverse) #data manipulation
 library(sparsepca)   #original spca package
-#devtools::install_github("BoyaJiang/spcaRcpp")
+devtools::install_github("BoyaJiang/spcaRcpp")
 devtools::install_github("srhaup2/clustering_scRNA", force = T)
 library(spcaRcpp)
 
@@ -189,7 +189,11 @@ autoplot(mb)
 set.seed(20211205)
 s = Sys.time()
 #spca_out = spcaRcpp(tumor2, k = 15, alpha = 1e-4, beta = 1e-4)
-res_kmeans = clusteringscRNA::kmeans_clust(spca_out$scores, k =5, init.method = "gkmeans++")
+res_kmeans = clusteringscRNA::kmeans_clust(spca_out$scores, k =5, 
+                                           nstart = 10,
+                                           init.method = "gkmeans++",
+                                           center = F, scale = F
+                                           )
 Sys.time() - s
 PC <- res_kmeans$clusters[,1]
 kable(data.frame(est=PC, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
@@ -197,7 +201,9 @@ kable(data.frame(est=PC, true=TC) %>% count(true,est) %>% mutate(freq=n/sum(n)))
 table(PC,TC)
 
 spcaKmeans <- function(scores){
-  res_kmeans = kmeans_clust(scores, k =5, init.method = "gkmeans++")
+  res_kmeans = clusteringscRNA::kmeans_clust(scores, k =5, nstart = 10,
+                                             init.method = "gkmeans++", 
+                                             center = FALSE, scale = FALSE)
   class <- res_kmeans$clusters[,1]
   return (class)
 }
@@ -207,6 +213,7 @@ for (i in 1:10) {
   ARI_kmeans[i] = adjustedRandIndex(spcaKmeans(spca_out$scores),
                               TC)
 }
+mean(ARI_kmeans)
 
 res_kmeans2 = numeric(10)
 for (i in 1:10) {
