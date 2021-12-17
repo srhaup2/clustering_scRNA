@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.12.11)  13 DEC 2021 17:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.12.11)  16 DEC 2021 20:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -458,93 +458,93 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 109
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 138.
+(Font)              <10> on input line 145.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 138.
+(Font)              <7> on input line 145.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 138.
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-51.
+(Font)              <5> on input line 145.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+63.
+(/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+15.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Underfull \hbox (badness 10000) in paragraph at lines 200--202
+Underfull \hbox (badness 10000) in paragraph at lines 222--224
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 204--207
+Underfull \hbox (badness 10000) in paragraph at lines 229--231
 
  []
 
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-19.
-(/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [1
+[1
 
 {/Users/ginj/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 240.
-<rcpp2.png, id=70, 567.11874pt x 443.6575pt>
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 261.
+<rcpp2.png, id=69, 567.11874pt x 443.6575pt>
 File: rcpp2.png Graphic file (type png)
 <use rcpp2.png>
-Package pdftex.def Info: rcpp2.png  used on input line 254.
+Package pdftex.def Info: rcpp2.png  used on input line 275.
 (pdftex.def)             Requested size: 256.6116pt x 200.74747pt.
-<rcpp4.png, id=72, 587.19376pt x 423.5825pt>
+<rcpp4.png, id=71, 587.19376pt x 423.5825pt>
 File: rcpp4.png Graphic file (type png)
 <use rcpp4.png>
-Package pdftex.def Info: rcpp4.png  used on input line 255.
+Package pdftex.def Info: rcpp4.png  used on input line 276.
 (pdftex.def)             Requested size: 278.29274pt x 200.75134pt.
-<results1.png, id=73, 374.39874pt x 508.90125pt>
+<results1.png, id=72, 374.39874pt x 508.90125pt>
 File: results1.png Graphic file (type png)
 <use results1.png>
-Package pdftex.def Info: results1.png  used on input line 290.
+Package pdftex.def Info: results1.png  used on input line 310.
 (pdftex.def)             Requested size: 147.6945pt x 200.75365pt.
-<results2.png, id=74, 393.47pt x 455.7025pt>
-File: results2.png Graphic file (type png)
-<use results2.png>
-Package pdftex.def Info: results2.png  used on input line 291.
-(pdftex.def)             Requested size: 173.33746pt x 200.75308pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 314--320
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 320--323
+<results2.1.png, id=73, 265.99374pt x 337.26pt>
+File: results2.1.png Graphic file (type png)
+<use results2.1.png>
+Package pdftex.def Info: results2.1.png  used on input line 311.
+(pdftex.def)             Requested size: 158.33115pt x 200.75195pt.
+[2 <./rcpp2.png> <./rcpp4.png> <./results1.png> <./results2.1.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 347--353
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 323--326
+Underfull \hbox (badness 10000) in paragraph at lines 353--356
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 326--330
+Underfull \hbox (badness 10000) in paragraph at lines 356--359
 
  []
 
-[2 <./rcpp2.png> <./rcpp4.png> <./results1.png> <./results2.png>] (./Report.aux
-)
+
+Underfull \hbox (badness 10000) in paragraph at lines 359--363
+
+ []
+
+[3] (./Report.aux)
 Package rerunfilecheck Info: File `Report.out' has not changed.
-(rerunfilecheck)             Checksum: D7E22D98AEE06A1A5B3C7D6129B5DA7B;956.
+(rerunfilecheck)             Checksum: 759B7AC33CB12B57D5C0F75D16015C2A;956.
  ) 
 Here is how much of TeX's memory you used:
- 11136 strings out of 480313
- 173668 string characters out of 5896702
- 485827 words of memory out of 5000000
+ 11141 strings out of 480313
+ 173716 string characters out of 5896702
+ 484827 words of memory out of 5000000
  28792 multiletter control sequences out of 15000+600000
  458514 words of font info for 71 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,9n,63p,240b,343s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,9n,63p,240b,324s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/ginj/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/
 ginj/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{/Users/ginj/L
-ibrary/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/ginj/Library
-/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/Users/ginj/Library/TinyT
-eX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/ginj/Library/TinyTeX/texmf-d
-ist/fonts/enc/dvips/lm/lm-ts1.enc}</Users/ginj/Library/TinyTeX/texmf-dist/fonts
+ibrary/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/Users/ginj/Library/Ti
+nyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Users/ginj/Library/TinyTeX/
+texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{/Users/ginj/Library/TinyTeX/texmf-
+dist/fonts/enc/dvips/lm/lm-rm.enc}</Users/ginj/Library/TinyTeX/texmf-dist/fonts
 /type1/public/lm/lmbx10.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1
 /public/lm/lmbx12.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/publi
 c/lm/lmbx7.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lm
@@ -559,10 +559,10 @@ fonts/type1/public/lm/lmsy10.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/
 type1/public/lm/lmsy7.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/p
 ublic/lm/lmtk10.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/public/
 lm/lmtt10.pfb>
-Output written on Report.pdf (2 pages, 501412 bytes).
+Output written on Report.pdf (3 pages, 505440 bytes).
 PDF statistics:
- 180 PDF objects out of 1000 (max. 8388607)
- 133 compressed objects within 2 object streams
- 26 named destinations out of 1000 (max. 500000)
+ 190 PDF objects out of 1000 (max. 8388607)
+ 142 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
  93 words of extra memory for PDF output out of 10000 (max. 10000000)
 

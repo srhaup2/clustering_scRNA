@@ -22,6 +22,15 @@ A recommended way to submit your code (50 points) is to host your package in a p
 
 If you cannot host a GitHub repository, you need to include the source code of the R package (.tar.gz) in this submission. In such as case, make a zip file containing both the PDF file and the package in your submission.
 
+## Introduction
+In recent years, there has been considerable interest in analyzing single-cell RNA (scRNA) data. When it comes to complex pathologies like cancer, scRNA data can illuminate the heterogeneities and commonalities across different types of cell. Unsupervised learning techniques are often employed to cluster cells. 
+
+However, scRNA data analysis can suffer from the so-called "curse of dimensionality" since it is often the case that $p \gg n$ or at least $p \approx n$. Therefore, a dimensionality reduction step is often in order before clustering to make this computationally challenging problem tractable. Another challenge we face is that common clustering algorithms' performance can vary wildly depending on the initialization procedure. Therefore, our objectives are two fold: 1) implement a robust and efficient dimensionality reduction technique and 2) improve existing, widely-used clustering methods to mitigate issues related to initialization. 
+
+Our test data comes from The Cancer Genome Atlas's Pan-Cancer Atlas data products [6]. The particular dataset we use is hosted on UCI's ML repository [7], and it contains labeled scRNA data for 5 cancer types. 
+
+For our project, we implement a sparse version of Principal Component Analysis (PCA), k-means clustering, and the EM algorithm for a gaussian mixture model. We make these implementations available to the public through two R packages, `spcaRcpp` (for sparse PCA) and `clusteringscRNA` for k-means and the EM algorithm. Links to these packages, to a Google Colab page with a brief tutorial, and to the dataset used for evaluation can be found below.  
+
 
 ## Links:
 **R Packages:**
@@ -32,21 +41,12 @@ https://colab.research.google.com/drive/14U0oFzB21j1-rswnQfkHt3YT93l2Z9-7#scroll
 **Database:**  
 https://archive.ics.uci.edu/ml/datasets/gene+expression+cancer+RNA-Seq  
 
-## Introduction
-|    In recent years, there has been considerable interest in analyzing single-cell RNA (scRNA) data. When it comes to complex pathologies like cancer, scRNA data can illuminate the heterogeneities and commonalities across different types of cell. Unsupervised learning techniques are often employed to cluster cells. 
-
-|   However, scRNA data analysis can suffer from the so-called "curse of dimensionality" since it is often the case that $p \gg n$ or at least $p \approx n$. Therefore, a dimensionality reduction step is often in order before clustering to make this computationally challenging problem tractable. Another challenge we face is that common clustering algorithms' performance can vary wildly depending on the initialization procedure. Therefore, our objectives are two fold: 1) implement a robust and efficient dimensionality reduction technique and 2) improve existing, widely-used clustering methods to mitigate issues related to initialization. 
-
-|   Our test data comes from The Cancer Genome Atlas's Pan-Cancer Atlas data products [6]. The particular dataset we use is hosted on UCI's ML repository [7], and it contains labeled scRNA data for 5 cancer types. 
-
-|   For our project, we implement a sparse version of Principal Component Analysis (PCA), k-means clustering, and the EM algorithm for a gaussian mixture model. We make these implementations available to the public through two R packages, `spcaRcpp` (for sparse PCA) and `clusteringscRNA` for k-means and the EM algorithm. Links to these packages, to a Google Colab page with a brief tutorial, and to the dataset used for evaluation can be found at the end of this report. 
-
 
 ## Algorithms
 ### 1. spcaRcpp
-|    Principal component analysis (PCA) is a popular data-processing and dimension-reduction technique. However, PCA suffers from the fact that each principal component is a linear combination of all the variables, making it difficult to interpret the results. Sparse principal component analysis (SPCA) was designed to remedy this inconsistency and to give additional interpretability to the projected data. Specifically, SPCA promotes sparsity in the modes, and the resulting sparse modes have only a few active (non-zero) coefficients, while the marjority of coefficients are zero. As a consequence, the model has improved interpretability, because the principal components are formed as a linear combination of only a few of the original variables. This method also prevents overfitting in a data setting where the number of variables is much greater than the number of observations ($n >> p$).  
+Principal component analysis (PCA) is a popular data-processing and dimension-reduction technique. However, PCA suffers from the fact that each principal component is a linear combination of all the variables, making it difficult to interpret the results. Sparse principal component analysis (SPCA) was designed to remedy this inconsistency and to give additional interpretability to the projected data. Specifically, SPCA promotes sparsity in the modes, and the resulting sparse modes have only a few active (non-zero) coefficients, while the marjority of coefficients are zero. As a consequence, the model has improved interpretability, because the principal components are formed as a linear combination of only a few of the original variables. This method also prevents overfitting in a data setting where the number of variables is much greater than the number of observations ($n >> p$).  
 
-|    The formulation of SPCA by Zou, Hastie and Tibshirani [1] directly incorporates sparsity inducing regularizers into the optimization problem:  
+The formulation of SPCA by Zou, Hastie and Tibshirani [1] directly incorporates sparsity inducing regularizers into the optimization problem:  
 
 $$
 \begin{array}{l}
@@ -65,15 +65,16 @@ which has the closed form solution $\mathbf{A}^{*}=\mathbf{U V}^{\top}$, where $
 $$
 \min _{\mathbf{B}} \frac{1}{2}\left\|\mathbf{X}-\mathbf{X B A}^{\top}\right\|_{\mathrm{F}}^{2}+\psi(\mathbf{B}) .
 $$   
+
 The problem splits across the $k$ columns of $\mathbf{B}$, yielding a regularized regression problem in each case:   
 $$
 \mathbf{b}_{j}^{*}=\underset{\mathbf{b}_{j}}{\arg \min } \frac{1}{2}\left\|\mathbf{X} \mathbf{A}(:, j)-\mathbf{X} \mathbf{b}_{j}\right\|^{2}+\psi\left(\mathbf{b}_{j}\right)
 $$   
 
-|    The principal components can then be calculated as a sparsely weighted linear combination of the observed variables **$Z = XB$**. The **$B$** update step relies on an iterative method using proximal gradient methods to find a stationary point.  
+The principal components can then be calculated as a sparsely weighted linear combination of the observed variables **$Z = XB$**. The **$B$** update step relies on an iterative method using proximal gradient methods to find a stationary point.  
 
-|    There are several existing R packages that implements SPCA, i.e. ``sparsepca``, ``elasticnet``, and ``EESPCA``. Among these, the ``sparsepca::spca`` provided a starting point for optimizing the SPCA function in terms of computational efficiency[2]. In order to improve the performance of the function, the iterative step was re-implemented in RcppArmadillo, which provides an interface to the Armadillo C++ numerical algebra library. RcppArmadillo offers a balance between performance and ease of use. The resulting package is ``spcaRcpp``. The ``spcaRcpp`` function from the package takes in a $n \times p$ data matrix or data frame **$X$**, a parameter $k$ indicating the maximal rank, the sparsity controlling parameter $\alpha$, the ridge shrinkage parameter $\beta$, a logical value ``center``, the maximum number of iterations and the stopping criteria for the convergence. The function then returns a list containing the following: a matrix of variable loadings, standard deviations, eigenvalues, centering, variance, and the principal component scores.   
-|    By performing SPCA on the ``tumor`` data using the following code:  
+There are several existing R packages that implements SPCA, i.e. ``sparsepca``, ``elasticnet``, and ``EESPCA``. Among these, the ``sparsepca::spca`` provided a starting point for optimizing the SPCA function in terms of computational efficiency[2]. In order to improve the performance of the function, the iterative step was re-implemented in RcppArmadillo, which provides an interface to the Armadillo C++ numerical algebra library. RcppArmadillo offers a balance between performance and ease of use. The resulting package is ``spcaRcpp``. The ``spcaRcpp`` function from the package takes in a $n \times p$ data matrix or data frame **$X$**, a parameter $k$ indicating the maximal rank, the sparsity controlling parameter $\alpha$, the ridge shrinkage parameter $\beta$, a logical value ``center``, the maximum number of iterations and the stopping criteria for the convergence. The function then returns a list containing the following: a matrix of variable loadings, standard deviations, eigenvalues, centering, variance, and the principal component scores.   
+By performing SPCA on the ``tumor`` data using the following code:  
 
 ```{r, eval = F}
 spcaRcpp(tumor, k = 15, alpha = 1e-04, beta = 1e-04)   
@@ -84,7 +85,7 @@ The function returns 15 principal components (PCs) with a cumulative explained v
 knitr::include_graphics(c("rcpp2.png", "rcpp4.png"))   
 ```
 
-|    It is also worth noting that when setting both $\alpha$ and $\beta$ to 0, the ``spca`` function is no longer introducing sparsity, and the results returned are the same as traditional PCA. Figure 2b. shows the speed of ``spcaRcpp`` and ``stats::prcomp`` are similar when removing the sparsity in the modes.   
+It is also worth noting that when setting both $\alpha$ and $\beta$ to 0, the ``spca`` function is no longer introducing sparsity, and the results returned are the same as traditional PCA. Figure 2b. shows the speed of ``spcaRcpp`` and ``stats::prcomp`` are similar when removing the sparsity in the modes.   
 
 ### 2. EM Clustering
 
@@ -92,12 +93,22 @@ knitr::include_graphics(c("rcpp2.png", "rcpp4.png"))
 ### 3. K-means Clustering
 
 ## Results
-|    In order to test the performance and speed of our functions, we performed SPCA and EM clustering or k-means clustering on the ``tumor`` data. Based on prior knowledge, the number of clusters was set to 5. First, dimensionality reduction was applied to the data using ``spcaRcpp``. The resulting principal components were clustered using either EM or k-means algorithm. Table ?a. shows the frequency of observations assigned to each cluster compared with the true labels from one run using EM clustering. The percentage of accurately clustered entries is approximately 98.9%. However, since EM algorithm depends on the initialization point, this result is not reliable. Therefore, we also calculated the average Adjusted Rand Index (ARI) from 10 runs. ARI computes the similarity measure between two clusterings by considering all pairs of samples and counting pairs that are assigned in the same or different clusters in the predicted and true clusterings. The resulting average ARI from EM algorithm was **0.7328**, and the average runtime was **0.172** seconds.   
+In order to test the performance and speed of our functions, we performed SPCA and EM clustering or k-means clustering on the ``tumor`` data. Based on prior knowledge, the number of clusters was set to 5. First, dimensionality reduction was applied to the data using ``spcaRcpp``. The resulting principal components were clustered using either EM or k-means algorithm. Table ?a. shows the frequency of observations assigned to each cluster compared with the true labels from one run using EM clustering. The percentage of accurately clustered entries is approximately 98.9%. However, since EM algorithm depends on the initialization point, this result is not reliable. Therefore, we also calculated the average Adjusted Rand Index (ARI) from 10 runs. ARI computes the similarity measure between two clusterings by considering all pairs of samples and counting pairs that are assigned in the same or different clusters in the predicted and true clusterings. The resulting average ARI from EM algorithm was **0.7328**, and the average runtime was **0.172** seconds.   
 ```{r, echo = F, out.height= "200px"}
-knitr::include_graphics(c("results1.png", "results2.png"))     
+knitr::include_graphics(c("results1.png", "results2.1.png"))     
 ```
 
-|    Next, we computed the accuracy of k-means clustering after dimensionality reduction. The initialization method ``gkmeans++`` was chosen since it was expected to outperformed other methods as discussed previously. From Table 2b., the accuracy of k-means clustering was approximately 99%. Again, in order to better assess the reliability and accuracy of this method, average ARI was computed from 10 runs. The average ARI of k-means clustering was **0.6321**, and the average runtime was **0.102** seconds. In comparison, the k-means function took approximately **0.178** seconds to perform clustering on the raw data without dimensionality reduction.   
+|    Next, we computed the accuracy of k-means clustering after dimensionality reduction using the following code. The initialization method ``gkmeans++`` was chosen since it was expected to outperformed other methods as discussed previously.   
+```{r, eval = FALSE}
+clusteringscRNA::kmeans_clust(spca_out$scores, 
+                              k =5, 
+                              nstart = 10,
+                              init.method = "gkmeans++",
+                              center = F, 
+                              scale = F)
+```
+
+From Table 2b., the accuracy of k-means clustering was approximately 93%. Again, in order to better assess the reliability and accuracy of this method, average ARI was computed from 10 runs. The average ARI of k-means clustering was **0.818**, and the average runtime was **1.095** seconds. In comparison, the k-means function took approximately **???** seconds to perform clustering on the raw data without dimensionality reduction.   
 
 ## Discussion
 
