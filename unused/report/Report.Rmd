@@ -91,20 +91,20 @@ It is also worth noting that when setting both $\alpha$ and $\beta$ to 0, the ``
 
 
 ### 3. K-means Clustering
-|    K-means is a very popular and relatively straightforward clustering algorithm. Many variations exist, but the most common implementation is referred to as Lloyd’s algorithm [8]. LLoyd's K-means algorithm is as follows: 
+K-means is a very popular and relatively straightforward clustering algorithm. Many variations exist, but the most common implementation is referred to as Lloyd’s algorithm [8]. LLoyd's K-means algorithm is as follows: 
 
 1. Randomly assign k datapoints to be the initial centroids (cluster centers)
 2. Iterate until clusters do not change:
     + Assign rest of data to closest centroid (according to squared Euclidean distance)
     + Re-calculate centroids
   
-|   Formally, cluster quality is assessed by **within-cluster sum of squares (WCSS)** given by: 
+Formally, cluster quality is assessed by **within-cluster sum of squares (WCSS)** given by: 
 
 For clusters $C_1, ..., C_k$, $WCSS = \sum_{i = 1}^k \sum_{x \in C_i} ||x - \mu_i||^2$ where $\mu_i$ is the centroid for each cluster. 
 
-|   Lloyd's algorithm is attractive because of its ease of implementation and because it is rather intuitive. However, because the initialization procedure is completely random and because K-means converges only to a local optima, Lloyd's method can result in quite poor clusters if bad initial centroids are chosen by chance. 
+Lloyd's algorithm is attractive because of its ease of implementation and because it is rather intuitive. However, because the initialization procedure is completely random and because K-means converges only to a local optima, Lloyd's method can result in quite poor clusters if bad initial centroids are chosen by chance. 
 
-|   For this reason, attempts have been made to improve Lloyd's method's initialization [9]. One very popular method is kmeans++, which is the default method in many software packages including the ubiquitous Python scikit-learn package [10].The method is as follows:
+For this reason, attempts have been made to improve Lloyd's method's initialization [9]. One very popular method is kmeans++, which is the default method in many software packages including the ubiquitous Python scikit-learn package [10].The method is as follows:
 
 1. Randomly choose one centroid
 2. Iterate until we have k centroids:
@@ -112,7 +112,7 @@ For clusters $C_1, ..., C_k$, $WCSS = \sum_{i = 1}^k \sum_{x \in C_i} ||x - \mu_
     + The next centroid is chosen with probability proportional to the distance computed in (a)
 3. Proceed with Lloyd’s k-means algorithm with these centroids
 
-|   Kmeans++ represents a considerable improvement over random initialization. This method operates under the idea that cluster centers should be spread out to maximize the opportunity to find the global maxima. Despite the popularity of kmeans++, some studies suggest it is not the optimal initialization procedure [11]. The authors of kmeans++ also propose another even better method called greedy kmeans++. The algorithm is as follows:
+Kmeans++ represents a considerable improvement over random initialization. This method operates under the idea that cluster centers should be spread out to maximize the opportunity to find the global maxima. Despite the popularity of kmeans++, some studies suggest it is not the optimal initialization procedure [11]. The authors of kmeans++ also propose another even better method called greedy kmeans++. The algorithm is as follows:
 
 1. Randomly choose one centroid
 2. Iterate until we have k centroids:
@@ -121,17 +121,18 @@ For clusters $C_1, ..., C_k$, $WCSS = \sum_{i = 1}^k \sum_{x \in C_i} ||x - \mu_
     + **The next centroid is the one that, if chosen, would result in the lowest total WCSS**
 3. Proceed with Lloyd’s k-means algorithm with these centroids
 
-|   The difference between kmeans++ and greedy kmeans++ is highlighted in bold. In essence, instead of sampling one new data point each iteration, j are sampled and the best one is chosen. 
+The difference between kmeans++ and greedy kmeans++ is highlighted in bold. In essence, instead of sampling one new data point each iteration, j are sampled and the best one is chosen. 
 
-|   The most popular implementation of kmeans in R is `stats::kmeans()`, but several others exist including `flexclust::kcca()`, `clustR::KMeans_rcpp()`, and `pracma::kmeanspp`. Some of these functions implement kmeans++, but to our knowledge, no current R package implements greedy kmeans++. 
+The most popular implementation of kmeans in R is `stats::kmeans()`, but several others exist including `flexclust::kcca()`, `clustR::KMeans_rcpp()`, and `pracma::kmeanspp`. Some of these functions implement kmeans++, but to our knowledge, no current R package implements greedy kmeans++. 
 
-|   Our kmeans implementation is capable of running Lloyd's algorithm with the following initialization methods: random, kmeans++, and greedy kmeans++. The function can be used as shown below:
+Our kmeans implementation is capable of running Lloyd's algorithm with the following initialization methods: random, kmeans++, and greedy kmeans++. The function can be used as shown below:
 
 ```{r, eval = FALSE}
 kmeans_clust(X, k, nstart = 1L, iter.max = 10L, init.method = "random", center = TRUE, scale = TRUE)
 ```
 
 It takes as input:
+
 * **X** n x p data matrix,
 * **k** number of clusters
 * **nstart** number of times to perform k means on the data
@@ -141,6 +142,7 @@ It takes as input:
 * **scale** if TRUE, scales each feature by its standard deviation
 
 And it returns:
+
 * **clusters** n x p+1 matrix of cluster assignments where the first column is cluster assignments
 * **iter** number of iterations
 * **centroids** k x p+1 matrix of centroids where the first column is cluster assignments
@@ -148,7 +150,7 @@ And it returns:
 
 First, we present a speed comparison of `kmeans_clust()` with `stats::kmeans()`.
 
-```{r, echo = FALSE, warnings = FALSE, message = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(clusteringscRNA)
 library(microbenchmark)
 library(ggplot2)
@@ -170,7 +172,7 @@ autoplot(res) + labs(title = "Speed Comparison of stats vs clusteringscRNA")
 
 Next, we can evaluate accuracy using Adjusted Rand Index. 
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(mclust)
 set.seed(114)
 
