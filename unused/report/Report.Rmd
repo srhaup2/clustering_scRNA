@@ -123,12 +123,12 @@ K-means is a very popular and relatively straightforward clustering algorithm. M
 
 1. Randomly assign k datapoints to be the initial centroids (cluster centers)
 2. Iterate until clusters do not change:
-    + Assign rest of data to closest centroid (according to squared Euclidean distance)
-    + Re-calculate centroids
+    (a) Assign rest of data to closest centroid (according to squared Euclidean distance)
+    (b) Re-calculate centroids
   
-Formally, cluster quality is assessed by **within-cluster sum of squares (WCSS)** given by: 
+Formally, cluster quality is assessed by **within-cluster sum of squared error (WCSSE)** given by: 
 
-For clusters $C_1, ..., C_k$, $WCSS = \sum_{i = 1}^k \sum_{x \in C_i} ||x - \mu_i||^2$ where $\mu_i$ is the centroid for each cluster. 
+For clusters $C_1, ..., C_k$, $WCSSE = \sum_{i = 1}^k \sum_{x \in C_i} ||x - \mu_i||^2$ where $\mu_i$ is the centroid for each cluster. 
 
 Lloyd's algorithm is attractive because of its ease of implementation and because it is rather intuitive. However, because the initialization procedure is completely random and because K-means converges only to a local optima, Lloyd's method can result in quite poor clusters if bad initial centroids are chosen by chance. 
 
@@ -136,17 +136,17 @@ For this reason, attempts have been made to improve Lloyd's method's initializat
 
 1. Randomly choose one centroid
 2. Iterate until we have k centroids:
-    + Compute the squared distance between non-centroids and all current centroids and take the minimum for each non-centroid
-    + The next centroid is chosen with probability proportional to the distance computed in (a)
+    (a) Compute the squared distance between non-centroids and all current centroids and take the minimum for each non-centroid
+    (b) The next centroid is chosen with probability proportional to the distance computed in (a)
 3. Proceed with Lloyd’s k-means algorithm with these centroids
 
 Kmeans++ represents a considerable improvement over random initialization. This method operates under the idea that cluster centers should be spread out to maximize the opportunity to find the global maxima. Despite the popularity of kmeans++, some studies suggest it is not the optimal initialization procedure [12]. The authors of kmeans++ also propose another even better method called greedy kmeans++. The algorithm is as follows:
 
 1. Randomly choose one centroid
 2. Iterate until we have k centroids:
-    + Compute the squared distance between non-centroids and all current centroids and take the minimum for each non-centroid
-    + **j new centroids are sampled with probability proportional to the distance computed in (a)**
-    + **The next centroid is the one that, if chosen, would result in the lowest total WCSS**
+    (a) Compute the squared distance between non-centroids and all current centroids and take the minimum for each non-centroid
+    (b) **j new centroids are sampled with probability proportional to the distance computed in (a)**
+    (c) **The next centroid is the one that, if chosen, would result in the lowest total WCSSE**
 3. Proceed with Lloyd’s k-means algorithm with these centroids
 
 The difference between kmeans++ and greedy kmeans++ is highlighted in bold. In essence, instead of sampling one new data point each iteration, j are sampled and the best one is chosen. 
