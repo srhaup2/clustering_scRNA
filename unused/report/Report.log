@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  17 DEC 2021 18:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020) (preloaded format=pdflatex 2020.4.7)  17 DEC 2021 18:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -425,15 +425,15 @@ LaTeX Info: Redefining \nameref on input line 111.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(113.81102pt, 617.4248pt, 113.81102pt)
-* v-part:(T,H,B)=(113.81102pt, 967.3937pt, 113.81102pt)
+* h-part:(L,W,R)=(99.58464pt, 645.87756pt, 99.58464pt)
+* v-part:(T,H,B)=(99.58464pt, 995.84647pt, 99.58464pt)
 * \paperwidth=845.04684pt
 * \paperheight=1195.01575pt
-* \textwidth=617.4248pt
-* \textheight=967.3937pt
-* \oddsidemargin=41.54103pt
-* \evensidemargin=41.54103pt
-* \topmargin=4.54103pt
+* \textwidth=645.87756pt
+* \textheight=995.84647pt
+* \oddsidemargin=27.31465pt
+* \evensidemargin=27.31465pt
+* \topmargin=-9.68535pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=10.0pt
@@ -502,17 +502,17 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
 (/usr/local/texlive/2020/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-95.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+07.
 (/usr/local/texlive/2020/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Underfull \hbox (badness 10000) in paragraph at lines 202--204
+Underfull \hbox (badness 10000) in paragraph at lines 214--216
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--211
+Underfull \hbox (badness 10000) in paragraph at lines 221--223
 
  []
 
@@ -522,71 +522,79 @@ Underfull \hbox (badness 10000) in paragraph at lines 209--211
 <rcpp2.png, id=38, 516.93124pt x 404.51125pt>
 File: rcpp2.png Graphic file (type png)
 <use rcpp2.png>
-Package pdftex.def Info: rcpp2.png  used on input line 256.
-(pdftex.def)             Requested size: 309.06474pt x 241.85066pt.
+Package pdftex.def Info: rcpp2.png  used on input line 268.
+(pdftex.def)             Requested size: 318.15929pt x 248.96736pt.
 <rcpp4.png, id=40, 610.28pt x 558.085pt>
 File: rcpp4.png Graphic file (type png)
 <use rcpp4.png>
-Package pdftex.def Info: rcpp4.png  used on input line 257.
-(pdftex.def)             Requested size: 264.46394pt x 241.84532pt.
+Package pdftex.def Info: rcpp4.png  used on input line 269.
+(pdftex.def)             Requested size: 272.23956pt x 248.95592pt.
 <em1.png, id=41, 781.92125pt x 194.7275pt>
 File: em1.png Graphic file (type png)
 <use em1.png>
-Package pdftex.def Info: em1.png  used on input line 289.
+Package pdftex.def Info: em1.png  used on input line 301.
 (pdftex.def)             Requested size: 403.04591pt x 100.37341pt.
 <em2.png, id=42, 784.9325pt x 118.4425pt>
 File: em2.png Graphic file (type png)
 <use em2.png>
-Package pdftex.def Info: em2.png  used on input line 299.
+Package pdftex.def Info: em2.png  used on input line 311.
 (pdftex.def)             Requested size: 602.29192pt x 90.8829pt.
 [2 <./rcpp2.png> <./rcpp4.png> <./em1.png> <./em2.png>]
 <em4.png, id=55, 459.7175pt x 295.1025pt>
 File: em4.png Graphic file (type png)
 <use em4.png>
-Package pdftex.def Info: em4.png  used on input line 323.
-(pdftex.def)             Requested size: 301.40826pt x 193.48041pt.
+Package pdftex.def Info: em4.png  used on input line 335.
+(pdftex.def)             Requested size: 310.26785pt x 199.16756pt.
 <em_mb.png, id=56, 584.1825pt x 469.755pt>
 File: em_mb.png Graphic file (type png)
 <use em_mb.png>
-Package pdftex.def Info: em_mb.png  used on input line 324.
-(pdftex.def)             Requested size: 240.60387pt x 193.47528pt.
+Package pdftex.def Info: em_mb.png  used on input line 336.
+(pdftex.def)             Requested size: 247.68149pt x 199.16656pt.
 <em5.png, id=57, 654.445pt x 77.28876pt>
 File: em5.png Graphic file (type png)
 <use em5.png>
-Package pdftex.def Info: em5.png  used on input line 326.
+Package pdftex.def Info: em5.png  used on input line 338.
 (pdftex.def)             Requested size: 424.97478pt x 50.18874pt.
 <em3.png, id=58, 128.48pt x 69.25874pt>
 File: em3.png Graphic file (type png)
 <use em3.png>
-Package pdftex.def Info: em3.png  used on input line 327.
+Package pdftex.def Info: em3.png  used on input line 339.
 (pdftex.def)             Requested size: 93.10149pt x 50.18752pt.
+
+Overfull \hbox (2.93614pt too wide) in paragraph at lines 446--451
+[]\T1/lmr/m/n/10 (-20) The most pop-u-lar im-ple-men-ta-tion of kmeans in R is 
+\T1/lmtt/m/n/10 stats::kmeans()\T1/lmr/m/n/10 (-20) , but sev-eral oth-ers ex-i
+st in-clud-ing \T1/lmtt/m/n/10 flexclust::kcca()\T1/lmr/m/n/10 (-20) , \T1/lmtt
+/m/n/10 clustR::KMeans_rcpp()\T1/lmr/m/n/10 (-20) ,
+ []
+
 [3 <./em4.png> <./em_mb.png> <./em5.png> <./em3.png>]
-<Report_files/figure-latex/unnamed-chunk-10-1.pdf, id=84, 451.6875pt x 316.1812
+<Report_files/figure-latex/unnamed-chunk-11-1.pdf, id=84, 451.6875pt x 316.1812
 4pt>
-File: Report_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-10-1.pdf  used
- on input line 490.
+File: Report_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-11-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-11-1.pdf  used
+ on input line 502.
 (pdftex.def)             Requested size: 286.7908pt x 200.75356pt.
 <results3.png, id=85, 781.92125pt x 480.79625pt>
 File: results3.png Graphic file (type png)
 <use results3.png>
-Package pdftex.def Info: results3.png  used on input line 537.
+Package pdftex.def Info: results3.png  used on input line 549.
 (pdftex.def)             Requested size: 408.10472pt x 250.93987pt.
-[4 <./Report_files/figure-latex/unnamed-chunk-10-1.pdf> <./results3.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 652.
+[4 <./Report_files/figure-latex/unnamed-chunk-11-1.pdf> <./results3.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 664.
 [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 652.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 664.
 (./Report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 652.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 652.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 664.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 664.
  ) 
 Here is how much of TeX's memory you used:
- 13558 strings out of 480608
- 198669 string characters out of 5903631
- 494683 words of memory out of 5000000
+ 13546 strings out of 480608
+ 198539 string characters out of 5903631
+ 496685 words of memory out of 5000000
  29095 multiletter control sequences out of 15000+600000
- 590444 words of font info for 107 fonts, out of 8000000 for 9000
+ 589946 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,9n,42p,805b,381s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/lo
@@ -608,7 +616,7 @@ f-dist/fonts/type1/public/lm/lmr7.pfb></usr/local/texlive/2020/texmf-dist/fonts
 /type1/public/lm/lmsy10.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/pub
 lic/lm/lmsy5.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmsy
 7.pfb></usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Report.pdf (5 pages, 1226522 bytes).
+Output written on Report.pdf (5 pages, 1227321 bytes).
 PDF statistics:
  228 PDF objects out of 1000 (max. 8388607)
  182 compressed objects within 2 object streams
