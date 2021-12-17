@@ -150,7 +150,7 @@ And it returns:
 
 First, we present a speed comparison of `kmeans_clust()` with `stats::kmeans()`.
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE}
+```{r, echo = FALSE, warning = FALSE, message = FALSE, out.height = "200px"}
 library(clusteringscRNA)
 library(microbenchmark)
 library(ggplot2)
@@ -168,7 +168,8 @@ res = microbenchmark(
 
 autoplot(res) + labs(title = "Speed Comparison of stats vs clusteringscRNA")
 ```
-|   We can see that the function in the `stats` package is the fastest, which is not surprising since it is written in C and Fortran. However, considering that only a small portion of the `clusteringscRNA` function is written in Rcpp, these results are not too bad. The random initialization and kmeans++ method have a similar runtime, but the greedy kmeans++ method has a much longer runtime because it does many more distance calculations. 
+
+We can see that the function in the `stats` package is the fastest, which is not surprising since it is written in C and Fortran. However, considering that only a small portion of the `clusteringscRNA` function is written in Rcpp, these results are not too bad. The random initialization and kmeans++ method have a similar runtime, but the greedy kmeans++ method has a much longer runtime because it does many more distance calculations. 
 
 Next, we can evaluate accuracy using Adjusted Rand Index. 
 
@@ -216,7 +217,8 @@ rownames(res_df) = c("stats", "clusteringscRNA_random","clusteringscRNA_kmeanspp
 print.data.frame(res_df)
 
 ```
-|   Greedy kmeans++ offers an improvement in accuracy and precision as measured by ARI and WCSSE. It is worth noting that the lowest WCSSE does not always correspond to the best ARI. In testing these functions, we found greedy kmeans++ fairly consistently provided the lowest WCSSE, but it does not always provide the highest ARI. 
+
+Greedy kmeans++ offers an improvement in accuracy and precision as measured by ARI and WCSSE. It is worth noting that the lowest WCSSE does not always correspond to the best ARI. In testing these functions, we found greedy kmeans++ fairly consistently provided the lowest WCSSE, but it does not always provide the highest ARI. 
 
 
 ## Results
@@ -225,7 +227,7 @@ In order to test the performance and speed of our functions, we performed SPCA a
 knitr::include_graphics(c("results1.png", "results2.1.png"))     
 ```
 
-|    Next, we computed the accuracy of k-means clustering after dimensionality reduction using the following code. The initialization method ``gkmeans++`` was chosen since it was expected to outperformed other methods as discussed previously.   
+Next, we computed the accuracy of k-means clustering after dimensionality reduction using the following code. The initialization method ``gkmeans++`` was chosen since it was expected to outperformed other methods as discussed previously.   
 ```{r, eval = FALSE}
 clusteringscRNA::kmeans_clust(spca_out$scores, 
                               k =5, 
@@ -235,7 +237,7 @@ clusteringscRNA::kmeans_clust(spca_out$scores,
                               scale = F)
 ```
 
-From Table 2b., the accuracy of k-means clustering was approximately 93%. Again, in order to better assess the reliability and accuracy of this method, average ARI was computed from 10 runs. The average ARI of k-means clustering was **0.818**, and the average runtime was **1.095** seconds. In comparison, the k-means function took approximately **???** seconds to perform clustering on the raw data without dimensionality reduction.   
+From Table 2b., the accuracy of k-means clustering was approximately 93%. Again, in order to better assess the reliability and accuracy of this method, average ARI was computed from 10 runs. The average ARI of k-means clustering was **0.818**, and the average runtime was **1.095** seconds. In comparison, the k-means function took approximately **1.612** seconds to perform clustering on the raw data without dimensionality reduction.   
 
 ## Discussion
 
