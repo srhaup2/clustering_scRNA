@@ -117,6 +117,8 @@ knitr::include_graphics(c("em4.png", "em_mb.png"))
 knitr::include_graphics(c("em5.png","em3.png"))   
 ```
 
+### 3. K-means Clustering  
+
 K-means is a very popular and relatively straightforward clustering algorithm. Many variations exist, but the most common implementation is referred to as Lloyd’s algorithm [9]. LLoyd's K-means algorithm is as follows: 
 
 1. Randomly assign k datapoints to be the initial centroids (cluster centers)
