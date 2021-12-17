@@ -25,7 +25,3 @@ A list including
 This is a normMixEM class, which initializes and runs EM algorithm output for mixtures of independent multivariate normal distributions
 }
 
-\examples{
- EM <- normMixEM$new(input_dat = data,num_components = num_components) ## initialization with $new
- res_EM <- EM$run.EM(loglik_tol=1e-5) ## run the main function for EM algorithm with $run.EM
-}

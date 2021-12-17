@@ -13,9 +13,6 @@
 #'   \item loglik_list - A number. The log-likelihood of the output result
 #'   \item prob_mat - A n*k matrix includes the probabilities of being assigned to k components for each sample.
 #'}
-#' @examples
-#'  EM <- normMixEM$new(input_dat = data,num_components = num_components) ## initialization with $new
-#'  res_EM <- EM$run.EM(loglik_tol=1e-5) ## run the main function for EM algorithm with $run.EM
 #' @import stats
 #' @import mixtools
 #' @import mvtnorm
