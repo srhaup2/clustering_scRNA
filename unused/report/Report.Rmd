@@ -89,7 +89,7 @@ It is also worth noting that when setting both $\alpha$ and $\beta$ to 0, the ``
 
 ### 2. EM Clustering in Multivariate Normal Mixtures
 
-|   EM clustering is one of the most widely-used algorithm for clustering on RNA-seq data. There are several existing R packages that implement EM algorithm for clustering on multivariate normal mixture data. One of the most popular EM clustering algorithm that addresses this kind of data is ``mixtools::mvnormalmixEM``. However, this is a general version that does clustering on multivariate normal mixtures data without discriminations on the mutual independence among the variables, which brings in unnecessary complexities when dealing with the mutually independent case. For this reason, We developed the class ``normMixEM`` in ``clusteringscRNA`` package specifically for the case of mutual independent variables data.
+|   EM clustering is one of the most widely-used algorithm for clustering on RNA-seq data. There are several existing R packages that implement EM algorithm for clustering on multivariate normal mixture data. One of the most popular EM clustering algorithm that addresses this kind of data is ``mixtools::mvnormalmixEM``[13]. However, this is a general version that does clustering on multivariate normal mixtures data without discriminations on the mutual independence among the variables, which brings in unnecessary complexities when dealing with the mutually independent case. For this reason, We developed the class ``normMixEM`` in ``clusteringscRNA`` package specifically for the case of mutual independent variables data.
 
 |  Simplification is realized based on the fact that when the independency holds, the covariance matrix in each mvnormal distribution would be diagnal, thus can be further compressed into vectors. In this case, `for` loops on a list of matrix can be replaced by matrix operations, which makes improvements on efficiency possible. The likelihood and log-likelihood function for mutually independent case can be expressed as follows:
 
@@ -276,6 +276,11 @@ clusteringscRNA::kmeans_clust(spca_out$scores,
 From Table 2b., the accuracy of k-means clustering was approximately 93%. Again, in order to better assess the reliability and accuracy of this method, average ARI was computed from 10 runs. The average ARI of k-means clustering was **0.818**, and the average runtime was **1.095** seconds. In comparison, the k-means function took approximately **1.612** seconds to perform clustering on the raw data without dimensionality reduction.   
 
 ## Discussion
+In this study, we presented new versions of SPCA, EM and k-means algorithms with improvements on efficiency and accuracy. To certify the accuracy of our method, we applied SPCA and EM clustering or k-means clustering on the ``tumor`` data and estimated the consistency of the real labels and ours by calculating ARI values and accuracy. The results suggest that our method has relatively high accuracy even higher efficiency when compared with existing packages.  
+However, we are also faced with several challenges.   
+One main difficulty is that both k-means and EM algorithm are sensitive to initialization parameters, which include the starting point and also the cluster number ``k``. Given the randomness of the initialization, the clustering result may vary from time to time, which reduces the stability of the algorithms and increases the difficulty of interpretation.
+The speed of clustering algorithms is another concern. As the single-cell datasets have become larger and larger, improvements on efficiency would be required,and this can be realized by writing in C++, Fortran, etc. Since only a small part of the codes in our study is written in C++, it's reasonable to expect further improvements on efficiency by rewriting in other compiled languages.
+
 
 ## References
 1. N.B.Erichson, P.Zheng, K.Manohar, S.Brunton, J.N.Kutz, A.Y.Aravkin."SparsePrincipal Component Analysis via Variable Projection." Submitted to IEEE Journal of Selected Topics on Signal Processing (2018). (available at ‘arXiv https://arxiv.org/abs/1804.00341).  
