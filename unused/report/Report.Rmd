@@ -1,7 +1,7 @@
 ---
 title: "BIOSTAT615 Final Report"
 author: "Group 8: Spencer Haupert, Boya Jiang, Kailin Wang"
-date: "11/12/2021"
+date: "12/17/2021"
 output:
   pdf_document: default
 documentclass: article
@@ -23,7 +23,8 @@ A recommended way to submit your code (50 points) is to host your package in a p
 If you cannot host a GitHub repository, you need to include the source code of the R package (.tar.gz) in this submission. In such as case, make a zip file containing both the PDF file and the package in your submission.
 
 
-### Links:
+## Links:
+**R Packages:**
 https://github.com/srhaup2/clustering_scRNA  
 https://github.com/BoyaJiang/spcaRcpp  
 **Google Colab:**  
@@ -32,8 +33,14 @@ https://colab.research.google.com/drive/14U0oFzB21j1-rswnQfkHt3YT93l2Z9-7#scroll
 https://archive.ics.uci.edu/ml/datasets/gene+expression+cancer+RNA-Seq  
 
 ## Introduction
-* problem and challenge
-* dataset
+|    In recent years, there has been considerable interest in analyzing single-cell RNA (scRNA) data. When it comes to complex pathologies like cancer, scRNA data can illuminate the heterogeneities and commonalities across different types of cell. Unsupervised learning techniques are often employed to cluster cells. 
+
+|   However, scRNA data analysis can suffer from the so-called "curse of dimensionality" since it is often the case that $p \gg n$ or at least $p \approx n$. Therefore, a dimensionality reduction step is often in order before clustering to make this computationally challenging problem tractable. Another challenge we face is that common clustering algorithms' performance can vary wildly depending on the initialization procedure. Therefore, our objectives are two fold: 1) implement a robust and efficient dimensionality reduction technique and 2) improve existing, widely-used clustering methods to mitigate issues related to initialization. 
+
+|   Our test data comes from The Cancer Genome Atlas's Pan-Cancer Atlas data products [6]. The particular dataset we use is hosted on UCI's ML repository [7], and it contains labeled scRNA data for 5 cancer types. 
+
+|   For our project, we implement a sparse version of Principal Component Analysis (PCA), k-means clustering, and the EM algorithm for a gaussian mixture model. We make these implementations available to the public through two R packages, `spcaRcpp` (for sparse PCA) and `clusteringscRNA` for k-means and the EM algorithm. Links to these packages, to a Google Colab page with a brief tutorial, and to the dataset used for evaluation can be found at the end of this report. 
+
 
 ## Algorithms
 ### 1. spcaRcpp
@@ -100,4 +107,8 @@ knitr::include_graphics(c("results1.png", "results2.png"))
 3. McLachlan, G. J. and Peel, D. (2000) Finite Mixture Models, John Wiley \& Sons, Inc.  
 4. Benaglia T, Chauveau D, Hunter DR, Young D (2009). “mixtools: An R Package for Analyzing Finite Mixture Models.” Journal of Statistical Software, 32(6), 1–29. http://www.jstatsoft.org/v32/i06/.  
 5. https://www.eecs.umich.edu/techreports/systems/cspl/cspl-401.pdf
+6. “PanCanAtlas Publications | NCI Genomic Data Commons.” Accessed December 16, 2021. https://gdc.cancer.gov/about-data/publications/pancanatlas.
+7. “UCI Machine Learning Repository: Gene Expression Cancer RNA-Seq Data Set.” Accessed October 27, 2021. https://archive.ics.uci.edu/ml/datasets/gene+expression+cancer+RNA-Seq.
+
+
 
