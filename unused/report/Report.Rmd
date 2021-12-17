@@ -90,6 +90,131 @@ knitr::include_graphics(c("rcpp2.png", "rcpp4.png"))
 
 
 ### 3. K-means Clustering
+|    K-means is a very popular and relatively straightforward clustering algorithm. Many variations exist, but the most common implementation is referred to as Lloyd’s algorithm [8]. LLoyd's K-means algorithm is as follows: 
+
+1. Randomly assign k datapoints to be the initial centroids (cluster centers)
+2. Iterate until clusters do not change:
+    + Assign rest of data to closest centroid (according to squared Euclidean distance)
+    + Re-calculate centroids
+  
+|   Formally, cluster quality is assessed by **within-cluster sum of squares (WCSS)** given by: 
+
+For clusters $C_1, ..., C_k$, $WCSS = \sum_{i = 1}^k \sum_{x \in C_i} ||x - \mu_i||^2$ where $\mu_i$ is the centroid for each cluster. 
+
+|   Lloyd's algorithm is attractive because of its ease of implementation and because it is rather intuitive. However, because the initialization procedure is completely random and because K-means converges only to a local optima, Lloyd's method can result in quite poor clusters if bad initial centroids are chosen by chance. 
+
+|   For this reason, attempts have been made to improve Lloyd's method's initialization [9]. One very popular method is kmeans++, which is the default method in many software packages including the ubiquitous Python scikit-learn package [10].The method is as follows:
+
+1. Randomly choose one centroid
+2. Iterate until we have k centroids:
+    + Compute the squared distance between non-centroids and all current centroids and take the minimum for each non-centroid
+    + The next centroid is chosen with probability proportional to the distance computed in (a)
+3. Proceed with Lloyd’s k-means algorithm with these centroids
+
+|   Kmeans++ represents a considerable improvement over random initialization. This method operates under the idea that cluster centers should be spread out to maximize the opportunity to find the global maxima. Despite the popularity of kmeans++, some studies suggest it is not the optimal initialization procedure [11]. The authors of kmeans++ also propose another even better method called greedy kmeans++. The algorithm is as follows:
+
+1. Randomly choose one centroid
+2. Iterate until we have k centroids:
+    + Compute the squared distance between non-centroids and all current centroids and take the minimum for each non-centroid
+    + **j new centroids are sampled with probability proportional to the distance computed in (a)**
+    + **The next centroid is the one that, if chosen, would result in the lowest total WCSS**
+3. Proceed with Lloyd’s k-means algorithm with these centroids
+
+|   The difference between kmeans++ and greedy kmeans++ is highlighted in bold. In essence, instead of sampling one new data point each iteration, j are sampled and the best one is chosen. 
+
+|   The most popular implementation of kmeans in R is `stats::kmeans()`, but several others exist including `flexclust::kcca()`, `clustR::KMeans_rcpp()`, and `pracma::kmeanspp`. Some of these functions implement kmeans++, but to our knowledge, no current R package implements greedy kmeans++. 
+
+|   Our kmeans implementation is capable of running Lloyd's algorithm with the following initialization methods: random, kmeans++, and greedy kmeans++. The function can be used as shown below:
+
+```{r, eval = FALSE}
+kmeans_clust(X, k, nstart = 1L, iter.max = 10L, init.method = "random", center = TRUE, scale = TRUE)
+```
+
+It takes as input:
+* **X** n x p data matrix,
+* **k** number of clusters
+* **nstart** number of times to perform k means on the data
+* **iter.max** max iterations per run
+* **init.method** method for centroid initialization - choose from random, kmeans++, greedy kmeans++ (gkmeans++)
+* **center** if TRUE, subtracts the mean for each feature
+* **scale** if TRUE, scales each feature by its standard deviation
+
+And it returns:
+* **clusters** n x p+1 matrix of cluster assignments where the first column is cluster assignments
+* **iter** number of iterations
+* **centroids** k x p+1 matrix of centroids where the first column is cluster assignments
+* **wcsse** - min within-cluster SSE over all nstart iterations
+
+First, we present a speed comparison of `kmeans_clust()` with `stats::kmeans()`.
+
+```{r, echo = FALSE, warnings = FALSE, message = FALSE}
+library(clusteringscRNA)
+library(microbenchmark)
+library(ggplot2)
+
+load("../../data/tumor_reduced.rda")
+tumor_reduced2 = tumor_reduced[,1:200]
+  
+res = microbenchmark(
+  stats = kmeans(tumor_reduced2, centers = 5, nstart = 1, algorithm = "Lloyd"),
+  clusteringscRNA_random = kmeans_clust(tumor_reduced2, k = 5, nstart = 1, init.method = "random"),
+  clusteringscRNA_kmeanspp = kmeans_clust(tumor_reduced2, k = 5, nstart = 1, init.method = "kmeans++"),
+  clusteringscRNA_gkmeanspp = kmeans_clust(tumor_reduced2, k = 5, nstart = 1, init.method = "gkmeans++"),
+  times = 10
+) 
+
+autoplot(res) + labs(title = "Speed Comparison of stats vs clusteringscRNA")
+```
+|   We can see that the function in the `stats` package is the fastest, which is not surprising since it is written in C and Fortran. However, considering that only a small portion of the `clusteringscRNA` function is written in Rcpp, these results are not too bad. The random initialization and kmeans++ method have a similar runtime, but the greedy kmeans++ method has a much longer runtime because it does many more distance calculations. 
+
+Next, we can evaluate accuracy using Adjusted Rand Index. 
+
+```{r, echo = FALSE}
+library(mclust)
+set.seed(114)
+
+tumor_reduced2 = tumor_reduced[,1:1000]
+
+res1 = matrix(0,2,10)
+rownames(res1) = c("ARI", "WCSSE")
+res2 = res1
+res3 = res1
+res4 = res1
+
+for (i in 1:10) {
+  m = kmeans(tumor_reduced2, centers = 5, nstart = 1, iter.max = 10, algorithm = "Lloyd")
+  res1[1,i] = adjustedRandIndex(m$cluster,TC)
+  res1[2,i] = m$tot.withinss
+}
+
+for (i in 1:10) {
+  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 1, iter.max = 10, init.method = "random", center = FALSE, scale = FALSE)
+  res2[1,i] = adjustedRandIndex(m$clusters[,1],TC)
+  res2[2,i] = m$wcsse
+}
+
+for (i in 1:10) {
+  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 1, iter.max = 10, init.method = "kmeans++", center = FALSE, scale = FALSE)
+  res3[1,i] = adjustedRandIndex(m$clusters[,1],TC)
+  res3[2,i] = m$wcsse
+}
+
+for (i in 1:10) {
+  m = kmeans_clust(tumor_reduced2, k = 5, nstart = 1, iter.max = 10, init.method = "gkmeans++", center = FALSE, scale = FALSE)
+  res4[1,i] = adjustedRandIndex(m$clusters[,1],TC)
+  res4[2,i] = m$wcsse
+}
+
+
+res_df = data.frame(`Median ARI` = c(median(res1[1,]), median(res2[1,]), median(res3[1,]), median(res4[1,])), `Median WCSSE` = c(median(res1[2,]), median(res2[2,]), median(res3[2,]), median(res4[2,])))
+
+rownames(res_df) = c("stats", "clusteringscRNA_random","clusteringscRNA_kmeanspp","clusteringscRNA_gkmeanspp")
+
+print.data.frame(res_df)
+
+```
+|   Greedy kmeans++ offers an improvement in accuracy and precision as measured by ARI and WCSSE. It is worth noting that the lowest WCSSE does not always correspond to the best ARI. In testing these functions, we found greedy kmeans++ fairly consistently provided the lowest WCSSE, but it does not always provide the highest ARI. 
+
 
 ## Results
 |    In order to test the performance and speed of our functions, we performed SPCA and EM clustering or k-means clustering on the ``tumor`` data. Based on prior knowledge, the number of clusters was set to 5. First, dimensionality reduction was applied to the data using ``spcaRcpp``. The resulting principal components were clustered using either EM or k-means algorithm. Table ?a. shows the frequency of observations assigned to each cluster compared with the true labels from one run using EM clustering. The percentage of accurately clustered entries is approximately 98.9%. However, since EM algorithm depends on the initialization point, this result is not reliable. Therefore, we also calculated the average Adjusted Rand Index (ARI) from 10 runs. ARI computes the similarity measure between two clusterings by considering all pairs of samples and counting pairs that are assigned in the same or different clusters in the predicted and true clusterings. The resulting average ARI from EM algorithm was **0.7328**, and the average runtime was **0.172** seconds.   
@@ -109,6 +234,12 @@ knitr::include_graphics(c("results1.png", "results2.png"))
 5. https://www.eecs.umich.edu/techreports/systems/cspl/cspl-401.pdf
 6. “PanCanAtlas Publications | NCI Genomic Data Commons.” Accessed December 16, 2021. https://gdc.cancer.gov/about-data/publications/pancanatlas.
 7. “UCI Machine Learning Repository: Gene Expression Cancer RNA-Seq Data Set.” Accessed October 27, 2021. https://archive.ics.uci.edu/ml/datasets/gene+expression+cancer+RNA-Seq.
+8. Lloyd, S. P. (1957). Least squares quantization in PCM. Technical Report RR-5497, Bell Lab, September 1957.
+9. Arthur, David, and Sergei Vassilvitskii. “K-Means++: The Advantages of Careful Seeding.” In Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms, 1027–35. SODA ’07. USA: Society for Industrial and Applied Mathematics, 2007.
+10. Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
+11. Celebi, M. Emre, Hassan A. Kingravi, and Patricio A. Vela. “A Comparative Study of Efficient Initialization Methods for the K-Means Clustering Algorithm.” CoRR abs/1209.1960 (2012). http://arxiv.org/abs/1209.1960.
+
+
 
 
 
