@@ -1,39 +1,30 @@
+
 ---
-title: "BIOSTAT615 Final Report"
+title: "Dimensionality Reduction and Clustering: single cell RNA-seq Data"
 author: "Group 8: Spencer Haupert, Boya Jiang, Kailin Wang"
 date: "12/17/2021"
 output:
   pdf_document: default
 documentclass: article
 classoption: a3paper
-geometry: margin=3cm
+geometry: margin=4cm
 ---
 ```{r, include=F}
 library(knitr)
 ```
-
-Submit your final project report and the code.
-
-Your canvas submission must include a written report (25 points) with <5,000 words. The report is expected to provide a brief introduction of the project, description of the problem to be solved, description of the algorithms, evaluation of the results at the minimum. You may include display items such as figures and tables, and the total length should be no longer than 5 pages (and the expected length is 3 pages).
-
-Submit your report as a PDF file. 
-
-A recommended way to submit your code (50 points) is to host your package in a public GitHub repository. Users should be able to install your package using devtools::install_github("username/repositoryname"), your report simply needs to include the URL for the repository in the first page of your report. As previously announced, the code will be grade based on novelty (30%), difficulty (30%), and the degree of completion (40%).
-
-If you cannot host a GitHub repository, you need to include the source code of the R package (.tar.gz) in this submission. In such as case, make a zip file containing both the PDF file and the package in your submission.
 
 ## Introduction
 In recent years, there has been considerable interest in analyzing single-cell RNA (scRNA) data. When it comes to complex pathologies like cancer, scRNA data can illuminate the heterogeneities and commonalities across different types of cell. Unsupervised learning techniques are often employed to cluster cells. 
 
 However, scRNA data analysis can suffer from the so-called "curse of dimensionality" since it is often the case that $p \gg n$ or at least $p \approx n$. Therefore, a dimensionality reduction step is often in order before clustering to make this computationally challenging problem tractable. Another challenge we face is that common clustering algorithms' performance can vary wildly depending on the initialization procedure. Therefore, our objectives are two fold: 1) implement a robust and efficient dimensionality reduction technique and 2) improve existing, widely-used clustering methods to mitigate issues related to initialization. 
 
-Our test data comes from The Cancer Genome Atlas's Pan-Cancer Atlas data products [6]. The particular dataset we use is hosted on UCI's ML repository [7], and it contains labeled scRNA data for 5 cancer types. 
+Our test data comes from The Cancer Genome Atlas's Pan-Cancer Atlas data products [1]. The particular dataset we use is hosted on UCI's ML repository [2], and it contains labeled scRNA data for 5 cancer types. 
 
 For our project, we implement a sparse version of Principal Component Analysis (PCA), k-means clustering, and the EM algorithm for a gaussian mixture model. We make these implementations available to the public through two R packages, `spcaRcpp` (for sparse PCA) and `clusteringscRNA` for k-means and the EM algorithm. Links to these packages, to a Google Colab page with a brief tutorial, and to the dataset used for evaluation can be found below.  
 
 
 ## Links:
-**R Packages:**
+**R Packages:**   
 https://github.com/srhaup2/clustering_scRNA  
 https://github.com/BoyaJiang/spcaRcpp  
 **Google Colab:**  
@@ -46,7 +37,7 @@ https://archive.ics.uci.edu/ml/datasets/gene+expression+cancer+RNA-Seq
 ### 1. spcaRcpp
 Principal component analysis (PCA) is a popular data-processing and dimension-reduction technique. However, PCA suffers from the fact that each principal component is a linear combination of all the variables, making it difficult to interpret the results. Sparse principal component analysis (SPCA) was designed to remedy this inconsistency and to give additional interpretability to the projected data. Specifically, SPCA promotes sparsity in the modes, and the resulting sparse modes have only a few active (non-zero) coefficients, while the marjority of coefficients are zero. As a consequence, the model has improved interpretability, because the principal components are formed as a linear combination of only a few of the original variables. This method also prevents overfitting in a data setting where the number of variables is much greater than the number of observations ($n >> p$).  
 
-The formulation of SPCA by Zou, Hastie and Tibshirani [1] directly incorporates sparsity inducing regularizers into the optimization problem:  
+The formulation of SPCA by Zou, Hastie and Tibshirani [3] directly incorporates sparsity inducing regularizers into the optimization problem:  
 
 $$
 \begin{array}{l}
@@ -71,17 +62,17 @@ $$
 \mathbf{b}_{j}^{*}=\underset{\mathbf{b}_{j}}{\arg \min } \frac{1}{2}\left\|\mathbf{X} \mathbf{A}(:, j)-\mathbf{X} \mathbf{b}_{j}\right\|^{2}+\psi\left(\mathbf{b}_{j}\right)
 $$   
 
-The principal components can then be calculated as a sparsely weighted linear combination of the observed variables **$Z = XB$**. The **$B$** update step relies on an iterative method using proximal gradient methods to find a stationary point.  
+The principal components can then be calculated as a sparsely weighted linear combination of the observed variables **$\mathbf{Z = XB}$**. The **$\mathbf{B}$** update step relies on an iterative method using proximal gradient methods to find a stationary point.  
 
-There are several existing R packages that implements SPCA, i.e. ``sparsepca``, ``elasticnet``, and ``EESPCA``. Among these, the ``sparsepca::spca`` provided a starting point for optimizing the SPCA function in terms of computational efficiency[2]. In order to improve the performance of the function, the iterative step was re-implemented in RcppArmadillo, which provides an interface to the Armadillo C++ numerical algebra library. RcppArmadillo offers a balance between performance and ease of use. The resulting package is ``spcaRcpp``. The ``spcaRcpp`` function from the package takes in a $n \times p$ data matrix or data frame **$X$**, a parameter $k$ indicating the maximal rank, the sparsity controlling parameter $\alpha$, the ridge shrinkage parameter $\beta$, a logical value ``center``, the maximum number of iterations and the stopping criteria for the convergence. The function then returns a list containing the following: a matrix of variable loadings, standard deviations, eigenvalues, centering, variance, and the principal component scores.   
+There are several existing R packages that implements SPCA, i.e. ``sparsepca``, ``elasticnet``, and ``EESPCA``. Among these, the ``sparsepca::spca`` provided a starting point for optimizing the SPCA function in terms of computational efficiency[4,5]. In order to improve the performance of the function, the iterative step was re-implemented in RcppArmadillo, which provides an interface to the Armadillo C++ numerical algebra library. RcppArmadillo offers a balance between performance and ease of use. The resulting package is ``spcaRcpp``. The ``spcaRcpp`` function from the package takes in a $n \times p$ data matrix or data frame **$X$**, a parameter $k$ indicating the maximal rank, the sparsity controlling parameter $\alpha$, the ridge shrinkage parameter $\beta$, a logical value ``center``, the maximum number of iterations and the stopping criteria for the convergence. The function then returns a list containing the following: a matrix of variable loadings, standard deviations, eigenvalues, centering, variance, and the principal component scores.   
 By performing SPCA on the ``tumor`` data using the following code:  
 
 ```{r, eval = F}
-spcaRcpp(tumor, k = 15, alpha = 1e-04, beta = 1e-04)   
+spcaRcpp(tumor, k = 15, alpha = 1e-04, beta = 1e-04, center = TRUE, max_iter = 1000, tol = 1e-05)   
 ```
 
 The function returns 15 principal components (PCs) with a cumulative explained variance ratio of 70%. Figure 1. is a visualization of PC1 vs PC2 by each known true tumor label. The validity of ``spcaRcpp`` is confirmed by ``all.equal()`` tests comparing to the original ``sparsepca::spca`` function. The performance of ``spcaRcpp`` is tested using ``microbenchmark`` after 100 runs. As shown in Figure 2a., the re-implementation of SPCA using Rcpp (top) successfully increased its speed comparing to the original ``sparsepca::spca`` (bottom) function.    
-```{r, echo = F, out.height= "200px"}
+```{r, echo = F, out.height= "25%", }
 knitr::include_graphics(c("rcpp2.png", "rcpp4.png"))   
 ```
 
@@ -89,9 +80,9 @@ It is also worth noting that when setting both $\alpha$ and $\beta$ to 0, the ``
 
 ### 2. EM Clustering in Multivariate Normal Mixtures
 
-|   EM clustering is one of the most widely-used algorithm for clustering on RNA-seq data. There are several existing R packages that implement EM algorithm for clustering on multivariate normal mixture data. One of the most popular EM clustering algorithm that addresses this kind of data is ``mixtools::mvnormalmixEM``[13]. However, this is a general version that does clustering on multivariate normal mixtures data without discriminations on the mutual independence among the variables, which brings in unnecessary complexities when dealing with the mutually independent case. For this reason, We developed the class ``normMixEM`` in ``clusteringscRNA`` package specifically for the case of mutual independent variables data.
+EM clustering is one of the most widely-used algorithm for clustering on RNA-seq data. There are several existing R packages that implement EM algorithm for clustering on multivariate normal mixture data. One of the most popular EM clustering algorithm that addresses this kind of data is ``mixtools::mvnormalmixEM`` [6,7,8]. However, this is a general version that does clustering on multivariate normal mixtures data without discriminations on the mutual independence among the variables, which brings in unnecessary complexities when dealing with the mutually independent case. For this reason, We developed the class ``normMixEM`` in ``clusteringscRNA`` package specifically for the case of mutual independent variables data.
 
-|  Simplification is realized based on the fact that when the independency holds, the covariance matrix in each mvnormal distribution would be diagnal, thus can be further compressed into vectors. In this case, `for` loops on a list of matrix can be replaced by matrix operations, which makes improvements on efficiency possible. The likelihood and log-likelihood function for mutually independent case can be expressed as follows:
+Simplification is realized based on the fact that when the independency holds, the covariance matrix in each mvnormal distribution would be diagnal, thus can be further compressed into vectors. In this case, `for` loops on a list of matrix can be replaced by matrix operations, which makes improvements on efficiency possible. The likelihood and log-likelihood function for mutually independent case can be expressed as follows:
 
 ```{r, echo = F, out.height= "100px"}
 knitr::include_graphics(c("em1.png"))   
@@ -100,12 +91,12 @@ knitr::include_graphics(c("em1.png"))
 where:  $logP({x_{i,j}}|{\mu}_{z_{i},j}, {\sigma}_{z_{i},j})= log(\frac{1}{\sqrt{2 \pi}{\sigma}_{z_{i},j}} e^{{-\frac{1}{2}}(\frac{x_{i,j}-{\mu}_{z_{i},j}}{{\sigma}_{z_{i},j}})^2})= - \frac{1}{2}log(2 \pi)-log({\sigma}_{z_{i},j})-{\frac{1}{2}}(\frac{x_{i,j}-{\mu}_{z_{i},j}}{{\sigma}_{z_{i},j}})^2$
 
 
-|  The ``normMixEM`` algorithm consists of three main parts: ``normMixEM``(class), ``rmvnorm_chol``(function) and ``normalmix_init``(function). A comparison table between the ``clusteringscRNA`` and ``mixtools`` is displayed below:  
-```{r, echo = F, out.height= "140px"}
+The ``normMixEM`` algorithm consists of three main parts: ``normMixEM`` (class), ``rmvnorm_chol`` (function) and ``normalmix_init`` (function). A comparison table between the ``clusteringscRNA`` and ``mixtools`` is displayed below:  
+```{r, echo = F, out.width= "600px"}
 knitr::include_graphics(c("em2.png"))   
 ```
 
-|  We conducted an example test comparing the runtime of ``normMixEM()`` with ``mvnormalmixEM()`` using the following code. In this case, we can see that ``normMixEM()`` gives 'perfect' clustering, and runs 6 times faster than the ``mvnormalmixEM()`` in ``mixtools``. Further implementations of ``normMixEM()`` on the tumor data is discussed in the results part.
+We conducted an example test comparing the runtime of ``normMixEM()`` with ``mvnormalmixEM()`` using the following code. In this case, we can see that ``normMixEM()`` gives 'perfect' clustering, and runs 6 times faster than the ``mvnormalmixEM()`` in ``mixtools``. Further implementations of ``normMixEM()`` on the tumor data is discussed in the results part.
 ```{r, eval = F}
 set.seed(1000)
 x.1 <- rmvnorm(40, c(0, 0))
@@ -118,16 +109,15 @@ class <- apply(res_EM$prob_mat, 1, which.max)
 plot(1L:res_EM$iter,res_EM$loglik_list,type="l")
 kable(data.frame(est=class, true=class_t) %>% count(true,est) %>% mutate(freq=n/sum(n)))
 ```
-```{r, echo = F, out.height= "150px"}
-knitr::include_graphics(c("em4.png"))  
+```{r, echo = F, out.height= "20%"}
+knitr::include_graphics(c("em4.png", "em_mb.png"))  
 ```
 
 ```{r, echo = F, out.height= "50px"}
 knitr::include_graphics(c("em5.png","em3.png"))   
 ```
 
-### 3. K-means Clustering
-K-means is a very popular and relatively straightforward clustering algorithm. Many variations exist, but the most common implementation is referred to as Lloyd’s algorithm [8]. LLoyd's K-means algorithm is as follows: 
+K-means is a very popular and relatively straightforward clustering algorithm. Many variations exist, but the most common implementation is referred to as Lloyd’s algorithm [9]. LLoyd's K-means algorithm is as follows: 
 
 1. Randomly assign k datapoints to be the initial centroids (cluster centers)
 2. Iterate until clusters do not change:
@@ -140,7 +130,7 @@ For clusters $C_1, ..., C_k$, $WCSS = \sum_{i = 1}^k \sum_{x \in C_i} ||x - \mu_
 
 Lloyd's algorithm is attractive because of its ease of implementation and because it is rather intuitive. However, because the initialization procedure is completely random and because K-means converges only to a local optima, Lloyd's method can result in quite poor clusters if bad initial centroids are chosen by chance. 
 
-For this reason, attempts have been made to improve Lloyd's method's initialization [9]. One very popular method is kmeans++, which is the default method in many software packages including the ubiquitous Python scikit-learn package [10].The method is as follows:
+For this reason, attempts have been made to improve Lloyd's method's initialization [10]. One very popular method is kmeans++, which is the default method in many software packages including the ubiquitous Python scikit-learn package [11].The method is as follows:
 
 1. Randomly choose one centroid
 2. Iterate until we have k centroids:
@@ -148,7 +138,7 @@ For this reason, attempts have been made to improve Lloyd's method's initializat
     + The next centroid is chosen with probability proportional to the distance computed in (a)
 3. Proceed with Lloyd’s k-means algorithm with these centroids
 
-Kmeans++ represents a considerable improvement over random initialization. This method operates under the idea that cluster centers should be spread out to maximize the opportunity to find the global maxima. Despite the popularity of kmeans++, some studies suggest it is not the optimal initialization procedure [11]. The authors of kmeans++ also propose another even better method called greedy kmeans++. The algorithm is as follows:
+Kmeans++ represents a considerable improvement over random initialization. This method operates under the idea that cluster centers should be spread out to maximize the opportunity to find the global maxima. Despite the popularity of kmeans++, some studies suggest it is not the optimal initialization procedure [12]. The authors of kmeans++ also propose another even better method called greedy kmeans++. The algorithm is as follows:
 
 1. Randomly choose one centroid
 2. Iterate until we have k centroids:
@@ -202,12 +192,12 @@ res = microbenchmark(
   times = 10
 ) 
 
-autoplot(res) + labs(title = "Speed Comparison of stats vs clusteringscRNA")
+autoplot(res) + labs(title = "Figure 5. Speed Comparison of stats vs clusteringscRNA")
 ```
 
 We can see that the function in the `stats` package is the fastest, which is not surprising since it is written in C and Fortran. However, considering that only a small portion of the `clusteringscRNA` function is written in Rcpp, these results are not too bad. The random initialization and kmeans++ method have a similar runtime, but the greedy kmeans++ method has a much longer runtime because it does many more distance calculations. 
 
-Next, we can evaluate accuracy using Adjusted Rand Index. 
+Next, we can evaluate accuracy on the raw data using Adjusted Rand Index: 
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(mclust)
@@ -258,12 +248,12 @@ Greedy kmeans++ offers an improvement in accuracy and precision as measured by A
 
 
 ## Results
-In order to test the performance and speed of our functions, we performed SPCA and EM clustering or k-means clustering on the ``tumor`` data. Based on prior knowledge, the number of clusters was set to 5. First, dimensionality reduction was applied to the data using ``spcaRcpp``. The resulting principal components were clustered using either EM or k-means algorithm. Table ?a. shows the frequency of observations assigned to each cluster compared with the true labels from one run using EM clustering. The percentage of accurately clustered entries is approximately 98.9%. However, since EM algorithm depends on the initialization point, this result is not reliable. Therefore, we also calculated the average Adjusted Rand Index (ARI) from 10 runs. ARI computes the similarity measure between two clusterings by considering all pairs of samples and counting pairs that are assigned in the same or different clusters in the predicted and true clusterings. The resulting average ARI from EM algorithm was **0.7328**, and the average runtime was **0.172** seconds.   
-```{r, echo = F, out.height= "200px"}
-knitr::include_graphics(c("results1.png", "results2.1.png"))     
+In order to test the performance and speed of our functions, we performed SPCA and EM or k-means clustering on the ``tumor`` data. Based on prior knowledge, the number of clusters was set to 5. First, dimensionality reduction was applied to the data using ``spcaRcpp``. The resulting principal components were clustered using either EM or k-means algorithm. Table 2a shows the frequency of observations assigned to each cluster compared with the true labels from one run using EM clustering. The percentage of accurately clustered entries is approximately 98.9%. However, since EM algorithm depends on the initialization point, this result is not reliable. Therefore, we also calculated the average Adjusted Rand Index (ARI) from 10 runs. ARI computes the similarity measure between two clusterings by considering all pairs of samples and counting pairs that are assigned in the same or different clusters in the predicted and true clusterings. The resulting average ARI from EM algorithm was **0.733**, and the average runtime was **0.172** seconds.   
+```{r, echo = F, out.height= "250px", fig.show='hold'}
+knitr::include_graphics(c("results3.png"))     
 ```
 
-Next, we computed the accuracy of k-means clustering after dimensionality reduction using the following code. The initialization method ``gkmeans++`` was chosen since it was expected to outperformed other methods as discussed previously.   
+Next, we computed the accuracy of k-means clustering after dimensionality reduction using the following code. The initialization method ``gkmeans++`` was chosen since it was expected to outperform other methods as discussed previously. The ``nstart`` was set to 10 in order to achieve higher accuracy.    
 ```{r, eval = FALSE}
 clusteringscRNA::kmeans_clust(spca_out$scores, 
                               k =5, 
@@ -273,31 +263,26 @@ clusteringscRNA::kmeans_clust(spca_out$scores,
                               scale = F)
 ```
 
-From Table 2b., the accuracy of k-means clustering was approximately 93%. Again, in order to better assess the reliability and accuracy of this method, average ARI was computed from 10 runs. The average ARI of k-means clustering was **0.818**, and the average runtime was **1.095** seconds. In comparison, the k-means function took approximately **1.612** seconds to perform clustering on the raw data without dimensionality reduction.   
+From Table 2b, the accuracy of k-means clustering was approximately 93%. Again, in order to better assess the reliability and accuracy of this method, average ARI was computed from 10 runs. The average ARI of k-means clustering was **0.818**, and the average runtime was **1.095** seconds. In comparison, the same k-means function took approximately **1.612** seconds to perform clustering on the raw data without dimensionality reduction. This is expected because the loss of information from SPCA has an impact on both the speed and accuracy of clustering methods.  
 
 ## Discussion
-In this study, we presented new versions of SPCA, EM and k-means algorithms with improvements on efficiency and accuracy. To certify the accuracy of our method, we applied SPCA and EM clustering or k-means clustering on the ``tumor`` data and estimated the consistency of the real labels and ours by calculating ARI values and accuracy. The results suggest that our method has relatively high accuracy even higher efficiency when compared with existing packages.  
-However, we are also faced with several challenges.   
-One main difficulty is that both k-means and EM algorithm are sensitive to initialization parameters, which include the starting point and also the cluster number ``k``. Given the randomness of the initialization, the clustering result may vary from time to time, which reduces the stability of the algorithms and increases the difficulty of interpretation.
+In this study, we presented new versions of SPCA, EM and k-means algorithms with improvements on efficiency and accuracy. To certify the accuracy of our method, we applied SPCA and EM clustering or k-means clustering on the ``tumor`` data and estimated the consistency of the real labels and ours by calculating ARI values. Specifically, greedy k-means method achieved higher accuracy (average ARI = 0.818) compared to EM algorithm (average ARI = 0.733). However, the performance speed of greedy k-means is much slower than EM algorithm (1.095 secs vs 0.172 secs on average). This result provides some insight on the speed/accuracy trade-off when selecting clustering methods for scRNA data.  
+
+Although our methods were able to demonstrate similar or even better performance compared to their existing counterparts, there are still several limitations. One main difficulty is that both k-means and EM algorithm are sensitive to initialization parameters, which include the starting point and also the cluster number ``k``. Given the randomness of the initialization, the clustering result may vary from time to time, which reduces the stability of the algorithms and increases the difficulty of interpretation.  
+
 The speed of clustering algorithms is another concern. As the single-cell datasets have become larger and larger, improvements on efficiency would be required,and this can be realized by writing in C++, Fortran, etc. Since only a small part of the codes in our study is written in C++, it's reasonable to expect further improvements on efficiency by rewriting in other compiled languages.
 
 
 ## References
-1. N.B.Erichson, P.Zheng, K.Manohar, S.Brunton, J.N.Kutz, A.Y.Aravkin."SparsePrincipal Component Analysis via Variable Projection." Submitted to IEEE Journal of Selected Topics on Signal Processing (2018). (available at ‘arXiv https://arxiv.org/abs/1804.00341).  
-2. N. B. Erichson, P. Zheng, S. Aravkin, sparsepca, (2018), GitHub repository   
-3. McLachlan, G. J. and Peel, D. (2000) Finite Mixture Models, John Wiley \& Sons, Inc.  
-4. Benaglia T, Chauveau D, Hunter DR, Young D (2009). “mixtools: An R Package for Analyzing Finite Mixture Models.” Journal of Statistical Software, 32(6), 1–29. http://www.jstatsoft.org/v32/i06/.  
-5. https://www.eecs.umich.edu/techreports/systems/cspl/cspl-401.pdf
-6. “PanCanAtlas Publications | NCI Genomic Data Commons.” Accessed December 16, 2021. https://gdc.cancer.gov/about-data/publications/pancanatlas.
-7. “UCI Machine Learning Repository: Gene Expression Cancer RNA-Seq Data Set.” Accessed October 27, 2021. https://archive.ics.uci.edu/ml/datasets/gene+expression+cancer+RNA-Seq.
-8. Lloyd, S. P. (1957). Least squares quantization in PCM. Technical Report RR-5497, Bell Lab, September 1957.
-9. Arthur, David, and Sergei Vassilvitskii. “K-Means++: The Advantages of Careful Seeding.” In Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms, 1027–35. SODA ’07. USA: Society for Industrial and Applied Mathematics, 2007.
-10. Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
-11. Celebi, M. Emre, Hassan A. Kingravi, and Patricio A. Vela. “A Comparative Study of Efficient Initialization Methods for the K-Means Clustering Algorithm.” CoRR abs/1209.1960 (2012). http://arxiv.org/abs/1209.1960.
-12. McLachlan, G. J. and Peel, D. (2000) Finite Mixture Models, John Wiley \& Sons, Inc.
-13. Benaglia T, Chauveau D, Hunter DR, Young D (2009). “mixtools: An R Package for Analyzing Finite Mixture Models.” Journal of Statistical Software, 32(6), 1–29. http://www.jstatsoft.org/v32/i06/.
-
-
-
-
-
+1. “PanCanAtlas Publications | NCI Genomic Data Commons.” Accessed December 16, 2021. https://gdc.cancer.gov/about-data/publications/pancanatlas.
+2. “UCI Machine Learning Repository: Gene Expression Cancer RNA-Seq Data Set.” Accessed October 27, 2021. https://archive.ics.uci.edu/ml/datasets/gene+expression+cancer+RNA-Seq.
+3. Hui Zou, Trevor Hastie & Robert Tibshirani (2006) Sparse Principal Component Analysis, Journal of Computational and Graphical Statistics, 15:2, 265-286, DOI: 10.1198/106186006X113430
+4. N.B.Erichson, P.Zheng, K.Manohar, S.Brunton, J.N.Kutz, A.Y.Aravkin."SparsePrincipal Component Analysis via Variable Projection." Submitted to IEEE Journal of Selected Topics on Signal Processing (2018). (available at ‘arXiv https://arxiv.org/abs/1804.00341).
+5. N. B. Erichson, P. Zheng, S. Aravkin, sparsepca, (2018), GitHub repository
+6. McLachlan, G. J. and Peel, D. (2000) Finite Mixture Models, John Wiley \& Sons, Inc.
+7. Benaglia T, Chauveau D, Hunter DR, Young D (2009). “mixtools: An R Package for Analyzing Finite Mixture Models.” Journal of Statistical Software, 32(6), 1–29. http://www.jstatsoft.org/v32/i06/.
+8. McLachlan, G. J. and Peel, D. (2000) Finite Mixture Models, John Wiley \& Sons, Inc.
+9. Lloyd, S. P. (1957). Least squares quantization in PCM. Technical Report RR-5497, Bell Lab, September 1957.
+10. Arthur, David, and Sergei Vassilvitskii. “K-Means++: The Advantages of Careful Seeding.” In Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms, 1027–35. SODA ’07. USA: Society for Industrial and Applied Mathematics, 2007.
+11. Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
+12. Celebi, M. Emre, Hassan A. Kingravi, and Patricio A. Vela. “A Comparative Study of Efficient Initialization Methods for the K-Means Clustering Algorithm.” CoRR abs/1209.1960 (2012). http://arxiv.org/abs/1209.1960.
