@@ -87,8 +87,44 @@ knitr::include_graphics(c("rcpp2.png", "rcpp4.png"))
 
 It is also worth noting that when setting both $\alpha$ and $\beta$ to 0, the ``spca`` function is no longer introducing sparsity, and the results returned are the same as traditional PCA. Figure 2b. shows the speed of ``spcaRcpp`` and ``stats::prcomp`` are similar when removing the sparsity in the modes.   
 
-### 2. EM Clustering
+### 2. EM Clustering in Multivariate Normal Mixtures
 
+|   EM clustering is one of the most widely-used algorithm for clustering on RNA-seq data. There are several existing R packages that implement EM algorithm for clustering on multivariate normal mixture data. One of the most popular EM clustering algorithm that addresses this kind of data is ``mixtools::mvnormalmixEM``. However, this is a general version that does clustering on multivariate normal mixtures data without discriminations on the mutual independence among the variables, which brings in unnecessary complexities when dealing with the mutually independent case. For this reason, We developed the class ``normMixEM`` in ``clusteringscRNA`` package specifically for the case of mutual independent variables data.
+
+|  Simplification is realized based on the fact that when the independency holds, the covariance matrix in each mvnormal distribution would be diagnal, thus can be further compressed into vectors. In this case, `for` loops on a list of matrix can be replaced by matrix operations, which makes improvements on efficiency possible. The likelihood and log-likelihood function for mutually independent case can be expressed as follows:
+
+```{r, echo = F, out.height= "100px"}
+knitr::include_graphics(c("em1.png"))   
+```
+
+where:  $logP({x_{i,j}}|{\mu}_{z_{i},j}, {\sigma}_{z_{i},j})= log(\frac{1}{\sqrt{2 \pi}{\sigma}_{z_{i},j}} e^{{-\frac{1}{2}}(\frac{x_{i,j}-{\mu}_{z_{i},j}}{{\sigma}_{z_{i},j}})^2})= - \frac{1}{2}log(2 \pi)-log({\sigma}_{z_{i},j})-{\frac{1}{2}}(\frac{x_{i,j}-{\mu}_{z_{i},j}}{{\sigma}_{z_{i},j}})^2$
+
+
+|  The ``normMixEM`` algorithm consists of three main parts: ``normMixEM``(class), ``rmvnorm_chol``(function) and ``normalmix_init``(function). A comparison table between the ``clusteringscRNA`` and ``mixtools`` is displayed below:  
+```{r, echo = F, out.height= "140px"}
+knitr::include_graphics(c("em2.png"))   
+```
+
+|  We conducted an example test comparing the runtime of ``normMixEM()`` with ``mvnormalmixEM()`` using the following code. In this case, we can see that ``normMixEM()`` gives 'perfect' clustering, and runs 6 times faster than the ``mvnormalmixEM()`` in ``mixtools``. Further implementations of ``normMixEM()`` on the tumor data is discussed in the results part.
+```{r, eval = F}
+set.seed(1000)
+x.1 <- rmvnorm(40, c(0, 0))
+x.2 <- rmvnorm(60, c(3, 4))
+X.1 <- rbind(x.1, x.2)
+class_t <- c(rep(1,40),rep(1,60))
+EM <- normMixEM$new(input_dat = X.1,num_components = 2L)
+res_EM <- EM$run.EM(loglik_tol=1e-5)
+class <- apply(res_EM$prob_mat, 1, which.max)
+plot(1L:res_EM$iter,res_EM$loglik_list,type="l")
+kable(data.frame(est=class, true=class_t) %>% count(true,est) %>% mutate(freq=n/sum(n)))
+```
+```{r, echo = F, out.height= "150px"}
+knitr::include_graphics(c("em4.png"))  
+```
+
+```{r, echo = F, out.height= "50px"}
+knitr::include_graphics(c("em5.png","em3.png"))   
+```
 
 ### 3. K-means Clustering
 K-means is a very popular and relatively straightforward clustering algorithm. Many variations exist, but the most common implementation is referred to as Lloyd’s algorithm [8]. LLoyd's K-means algorithm is as follows: 
@@ -251,6 +287,8 @@ From Table 2b., the accuracy of k-means clustering was approximately 93%. Again,
 9. Arthur, David, and Sergei Vassilvitskii. “K-Means++: The Advantages of Careful Seeding.” In Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms, 1027–35. SODA ’07. USA: Society for Industrial and Applied Mathematics, 2007.
 10. Scikit-learn: Machine Learning in Python, Pedregosa et al., JMLR 12, pp. 2825-2830, 2011.
 11. Celebi, M. Emre, Hassan A. Kingravi, and Patricio A. Vela. “A Comparative Study of Efficient Initialization Methods for the K-Means Clustering Algorithm.” CoRR abs/1209.1960 (2012). http://arxiv.org/abs/1209.1960.
+12. McLachlan, G. J. and Peel, D. (2000) Finite Mixture Models, John Wiley \& Sons, Inc.
+13. Benaglia T, Chauveau D, Hunter DR, Young D (2009). “mixtools: An R Package for Analyzing Finite Mixture Models.” Journal of Statistical Software, 32(6), 1–29. http://www.jstatsoft.org/v32/i06/.
 
 
 
