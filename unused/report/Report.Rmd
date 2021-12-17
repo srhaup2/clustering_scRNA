@@ -7,10 +7,17 @@ output:
   pdf_document: default
 documentclass: article
 classoption: a3paper
-geometry: margin=4cm
+geometry: margin=3.5cm
 ---
 ```{r, include=F}
 library(knitr)
+library(clusteringscRNA)
+library(microbenchmark)
+library(ggplot2)
+
+load("../../data/tumor_reduced.rda")
+tumor_reduced2 = tumor_reduced[,1:200]
+  
 ```
 
 ## Introduction
@@ -18,7 +25,10 @@ In recent years, there has been considerable interest in analyzing single-cell R
 
 However, scRNA data analysis can suffer from the so-called "curse of dimensionality" since it is often the case that $p \gg n$ or at least $p \approx n$. Therefore, a dimensionality reduction step is often in order before clustering to make this computationally challenging problem tractable. Another challenge we face is that common clustering algorithms' performance can vary wildly depending on the initialization procedure. Therefore, our objectives are two fold: 1) implement a robust and efficient dimensionality reduction technique and 2) improve existing, widely-used clustering methods to mitigate issues related to initialization. 
 
-Our test data comes from The Cancer Genome Atlas's Pan-Cancer Atlas data products [1]. The particular dataset we use is hosted on UCI's ML repository [2], and it contains labeled scRNA data for 5 cancer types. 
+Our test data comes from The Cancer Genome Atlas's Pan-Cancer Atlas data products [1]. The particular dataset we use is hosted on UCI's ML repository [2], and it contains labeled scRNA data for 5 cancer types. For demonstration, we selected a subset of data containing 801 cells and 200 genes, each cell corresponding to one of the 5 cancer types. The first five rows and columns of the data and its are shown here:  
+```{r, echo = FALSE}
+(tumor_reduced2[1:5,1:5])
+```
 
 For our project, we implement a sparse version of Principal Component Analysis (PCA), k-means clustering, and the EM algorithm for a gaussian mixture model. We make these implementations available to the public through two R packages, `spcaRcpp` (for sparse PCA) and `clusteringscRNA` for k-means and the EM algorithm. Links to these packages, to a Google Colab page with a brief tutorial, and to the dataset used for evaluation can be found below.  
 
@@ -179,13 +189,6 @@ And it returns:
 First, we present a speed comparison of `kmeans_clust()` with `stats::kmeans()`.
 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE, out.height = "200px"}
-library(clusteringscRNA)
-library(microbenchmark)
-library(ggplot2)
-
-load("../../data/tumor_reduced.rda")
-tumor_reduced2 = tumor_reduced[,1:200]
-  
 res = microbenchmark(
   stats = kmeans(tumor_reduced2, centers = 5, nstart = 1, algorithm = "Lloyd"),
   clusteringscRNA_random = kmeans_clust(tumor_reduced2, k = 5, nstart = 1, init.method = "random"),

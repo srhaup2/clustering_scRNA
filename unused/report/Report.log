@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.12.11)  17 DEC 2021 17:56
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2022/dev) (preloaded format=pdflatex 2021.12.11)  17 DEC 2021 18:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -395,15 +395,15 @@ LaTeX Info: Redefining \nameref on input line 107.
 * layout: <same size as paper>
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
-* h-part:(L,W,R)=(113.81102pt, 617.4248pt, 113.81102pt)
-* v-part:(T,H,B)=(113.81102pt, 967.3937pt, 113.81102pt)
+* h-part:(L,W,R)=(99.58464pt, 645.87756pt, 99.58464pt)
+* v-part:(T,H,B)=(99.58464pt, 995.84647pt, 99.58464pt)
 * \paperwidth=845.04684pt
 * \paperheight=1195.01575pt
-* \textwidth=617.4248pt
-* \textheight=967.3937pt
-* \oddsidemargin=41.54103pt
-* \evensidemargin=41.54103pt
-* \topmargin=4.54103pt
+* \textwidth=645.87756pt
+* \textheight=995.84647pt
+* \oddsidemargin=27.31465pt
+* \evensidemargin=27.31465pt
+* \topmargin=-9.68535pt
 * \headheight=12.0pt
 * \headsep=25.0pt
 * \topskip=10.0pt
@@ -468,17 +468,17 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
-91.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
+03.
 (/Users/ginj/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Underfull \hbox (badness 10000) in paragraph at lines 198--200
+Underfull \hbox (badness 10000) in paragraph at lines 210--212
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 205--207
+Underfull \hbox (badness 10000) in paragraph at lines 217--219
 
  []
 
@@ -486,69 +486,70 @@ Underfull \hbox (badness 10000) in paragraph at lines 205--207
 
 {/Users/ginj/Library/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 238.
-<rcpp2.png, id=70, 516.93124pt x 404.51125pt>
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 250.
+<rcpp2.png, id=69, 516.93124pt x 404.51125pt>
 File: rcpp2.png Graphic file (type png)
 <use rcpp2.png>
-Package pdftex.def Info: rcpp2.png  used on input line 252.
-(pdftex.def)             Requested size: 309.06474pt x 241.85066pt.
-<rcpp4.png, id=72, 610.28pt x 558.085pt>
+Package pdftex.def Info: rcpp2.png  used on input line 264.
+(pdftex.def)             Requested size: 318.15929pt x 248.96736pt.
+<rcpp4.png, id=71, 610.28pt x 558.085pt>
 File: rcpp4.png Graphic file (type png)
 <use rcpp4.png>
-Package pdftex.def Info: rcpp4.png  used on input line 253.
-(pdftex.def)             Requested size: 264.46394pt x 241.84532pt.
-<em1.png, id=73, 781.92125pt x 194.7275pt>
+Package pdftex.def Info: rcpp4.png  used on input line 265.
+(pdftex.def)             Requested size: 272.23956pt x 248.95592pt.
+<em1.png, id=72, 781.92125pt x 194.7275pt>
 File: em1.png Graphic file (type png)
 <use em1.png>
-Package pdftex.def Info: em1.png  used on input line 285.
+Package pdftex.def Info: em1.png  used on input line 297.
 (pdftex.def)             Requested size: 403.04591pt x 100.37341pt.
-<em2.png, id=74, 784.9325pt x 118.4425pt>
+<em2.png, id=73, 784.9325pt x 118.4425pt>
 File: em2.png Graphic file (type png)
 <use em2.png>
-Package pdftex.def Info: em2.png  used on input line 295.
+Package pdftex.def Info: em2.png  used on input line 307.
 (pdftex.def)             Requested size: 602.29192pt x 90.8829pt.
 [2 <./rcpp2.png> <./rcpp4.png> <./em1.png> <./em2.png>]
 <em4.png, id=87, 459.7175pt x 295.1025pt>
 File: em4.png Graphic file (type png)
 <use em4.png>
-Package pdftex.def Info: em4.png  used on input line 319.
-(pdftex.def)             Requested size: 301.40826pt x 193.48041pt.
+Package pdftex.def Info: em4.png  used on input line 331.
+(pdftex.def)             Requested size: 310.26785pt x 199.16756pt.
 <em_mb.png, id=88, 584.1825pt x 469.755pt>
 File: em_mb.png Graphic file (type png)
 <use em_mb.png>
-Package pdftex.def Info: em_mb.png  used on input line 320.
-(pdftex.def)             Requested size: 240.60387pt x 193.47528pt.
+Package pdftex.def Info: em_mb.png  used on input line 332.
+(pdftex.def)             Requested size: 247.68149pt x 199.16656pt.
 <em5.png, id=89, 654.445pt x 77.28876pt>
 File: em5.png Graphic file (type png)
 <use em5.png>
-Package pdftex.def Info: em5.png  used on input line 322.
+Package pdftex.def Info: em5.png  used on input line 334.
 (pdftex.def)             Requested size: 424.97478pt x 50.18874pt.
 <em3.png, id=90, 128.48pt x 69.25874pt>
 File: em3.png Graphic file (type png)
 <use em3.png>
-Package pdftex.def Info: em3.png  used on input line 323.
+Package pdftex.def Info: em3.png  used on input line 335.
 (pdftex.def)             Requested size: 93.10149pt x 50.18752pt.
 
-Underfull \hbox (badness 1248) in paragraph at lines 427--432
+Overfull \hbox (11.55284pt too wide) in paragraph at lines 439--444
 []\T1/lmr/m/n/10 The most pop-u-lar im-ple-men-ta-tion of kmeans in R is \T1/lm
 tt/m/n/10 stats::kmeans()\T1/lmr/m/n/10 , but sev-eral oth-ers ex-ist in-clud-i
-ng \T1/lmtt/m/n/10 flexclust::kcca()\T1/lmr/m/n/10 ,
+ng \T1/lmtt/m/n/10 flexclust::kcca()\T1/lmr/m/n/10 , \T1/lmtt/m/n/10 clustR::KM
+eans_rcpp()\T1/lmr/m/n/10 ,
  []
 
 [3 <./em4.png> <./em_mb.png> <./em5.png> <./em3.png>]
-<Report_files/figure-latex/unnamed-chunk-10-1.pdf, id=108, 451.6875pt x 316.181
+<Report_files/figure-latex/unnamed-chunk-11-1.pdf, id=108, 451.6875pt x 316.181
 24pt>
-File: Report_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type pdf)
-<use Report_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-10-1.pdf  used
- on input line 483.
+File: Report_files/figure-latex/unnamed-chunk-11-1.pdf Graphic file (type pdf)
+<use Report_files/figure-latex/unnamed-chunk-11-1.pdf>
+Package pdftex.def Info: Report_files/figure-latex/unnamed-chunk-11-1.pdf  used
+ on input line 495.
 (pdftex.def)             Requested size: 286.7908pt x 200.75356pt.
 <results3.png, id=109, 781.92125pt x 480.79625pt>
 File: results3.png Graphic file (type png)
 <use results3.png>
-Package pdftex.def Info: results3.png  used on input line 530.
+Package pdftex.def Info: results3.png  used on input line 542.
 (pdftex.def)             Requested size: 408.10472pt x 250.93987pt.
-[4 <./Report_files/figure-latex/unnamed-chunk-10-1.pdf>] [5 <./results3.png>] (
+[4 <./Report_files/figure-latex/unnamed-chunk-11-1.pdf>] [5 <./results3.png>] (
 ./Report.aux)
 Package rerunfilecheck Info: File `Report.out' has not changed.
 (rerunfilecheck)             Checksum: A7D70D3EDBE2618A8BF5BC6EE42B4963;1128.
@@ -556,11 +557,11 @@ Package rerunfilecheck Info: File `Report.out' has not changed.
 Here is how much of TeX's memory you used:
  11214 strings out of 480313
  174917 string characters out of 5896702
- 484128 words of memory out of 5000000
+ 485132 words of memory out of 5000000
  28850 multiletter control sequences out of 15000+600000
  458514 words of font info for 71 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 60i,9n,63p,398b,344s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,9n,63p,398b,350s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/Users/ginj/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/Us
 ers/ginj/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/ginj/L
 ibrary/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/Users/ginj/Library/Tin
@@ -582,7 +583,7 @@ pe1/public/lm/lmsy10.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/pu
 blic/lm/lmsy5.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/public/lm
 /lmsy7.pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10
 .pfb></Users/ginj/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Report.pdf (5 pages, 1269165 bytes).
+Output written on Report.pdf (5 pages, 1269125 bytes).
 PDF statistics:
  244 PDF objects out of 1000 (max. 8388607)
  177 compressed objects within 2 object streams
