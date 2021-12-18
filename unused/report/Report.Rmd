@@ -106,7 +106,7 @@ The ``normMixEM`` algorithm consists of three main parts: ``normMixEM`` (class),
 knitr::include_graphics(c("em2.png"))   
 ```
 
-We conducted an example test comparing the runtime of ``normMixEM()`` with ``mvnormalmixEM()`` using the following code. In this case, we can see that ``normMixEM()`` gives 'perfect' clustering, and runs 6 times faster than the ``mvnormalmixEM()`` in ``mixtools``. Further implementations of ``normMixEM()`` on the tumor data is discussed in the results part.
+We conducted an example test comparing the runtime of ``normMixEM()`` with ``mvnormalmixEM()`` using the following code. In this case, we can see that ``normMixEM()`` gives 'perfect' clustering, and runs 6 times faster than the ``mvnormalmixEM()`` in ``mixtools``. Further implementations of ``normMixEM()`` on the tumor data is discussed in the results part.  
 ```{r, eval = F}
 set.seed(1000)
 x.1 <- rmvnorm(40, c(0, 0))
@@ -126,6 +126,8 @@ knitr::include_graphics(c("em4.png", "em_mb.png"))
 ```{r, echo = F, out.height= "50px"}
 knitr::include_graphics(c("em5.png","em3.png"))   
 ```
+
+Last but not least, we should emphasize on the importance of validating the mutual independence assumption before implementing the algorithm, since this is the assumption based on which ``normMixEM`` is developed. Particularly, when the dimension of data is too large, mutual independence would probably not hold, thus ``normMixEM`` would usually behave poorly on high-dimensional dataset. In this case, dimension reduction would be necessary before doing clustering with ``normMixEM`` algorithm.  
 
 ### 3. K-means Clustering  
 
